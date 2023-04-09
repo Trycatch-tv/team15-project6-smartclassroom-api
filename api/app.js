@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import env from './config.js'
+import courseRoute from './routes/course.js'
 
 // app init
 const app = express()
@@ -14,6 +15,9 @@ app.set('port', env.PORT)
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors())
+
+// Routes
+app.use('/api', courseRoute)
 
 // Route Not Found
 app.use((req, res) => {
