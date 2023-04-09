@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import env from './config.js'
-import courseRoute from './routes/course.js'
+import courseRoute from './routes/courses.js'
 
 // app init
 const app = express()
