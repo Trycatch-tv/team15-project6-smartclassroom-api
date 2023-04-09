@@ -3,5 +3,5 @@ SmartClassroom API
 
 ### Installing all the dependencies ⚙️
 `npm install`
-
-
+### Running the project 🖥️
+`npm run dev`
