@@ -8,11 +8,11 @@ export const Registration = conectionSequelize.define('registrations', {
     defaultValue: DataTypes.UUIDV4
   },
   registration_date: {
-    type: DataTypes.DATE(),
+    type: DataTypes.DATEONLY(),
     allowNull: false
   },
   cancellation_date: {
-    type: DataTypes.DATE(),
+    type: DataTypes.DATEONLY(),
     allowNull: false
   }
 })

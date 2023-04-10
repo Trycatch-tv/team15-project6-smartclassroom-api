@@ -13,14 +13,16 @@ export const Course = conectionSequelize.define('courses', {
     unique: true
   },
   description: {
-    type: DataTypes.STRING(),
+    type: DataTypes.TEXT,
     allowNull: true
   },
   start_date: {
-    type: DataTypes.DATE()
+    type: DataTypes.DATEONLY(),
+    defaultValue: DataTypes.NOW()
   },
   end_date: {
-    type: DataTypes.DATE()
+    type: DataTypes.DATEONLY(),
+    defaultValue: DataTypes.NOW()
   },
   teacher: {
     type: DataTypes.STRING(),
