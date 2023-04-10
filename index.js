@@ -1,7 +1,7 @@
-import { conectionSequelize } from './databases/db.js'
-import app from './app.js'
+import { conectionSequelize } from './api/databases/db.js'
+import app from './api/app.js'
 
-import './models/Asociations.js'
+import './api/models/Asociations.js'
 // https://dbdiagram.io/d/6432e3e88615191cfa8c7f1e
 
 const main = async () => {
