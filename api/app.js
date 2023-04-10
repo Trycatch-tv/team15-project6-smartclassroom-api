@@ -22,7 +22,7 @@ app.use('/api', courseRoute)
 // Route Not Found
 app.use((req, res) => {
   res.status(404).json({
-    error: 'Rout Not Found'
+    error: 'Route Not Found'
   })
 })
 
