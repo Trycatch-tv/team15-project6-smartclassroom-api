@@ -59,7 +59,7 @@ stages:
   condition: succeeded()
   jobs:
   - deployment: Deploy
-    displayName: Deploy
+    displayName: Deploy    
     environment: $(environmentName)
     pool:
       vmImage: $(vmImageName)
@@ -69,6 +69,11 @@ stages:
           steps:
           - task: AzureWebApp@1
             displayName: 'Azure Web App Deploy: dev-smartclassroom'
+            env:
+              DB_USER: $(DB_USER)
+              DB_PWD: $(DB_PWD)
+              DB_NAME: $(DB_NAME)
+              DB_HOST: $(DB_HOST)
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
