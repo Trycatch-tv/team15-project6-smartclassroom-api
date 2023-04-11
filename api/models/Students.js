@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
 
 export const Student = conectionSequelize.define('students', {
-  id: {
+  student_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4
