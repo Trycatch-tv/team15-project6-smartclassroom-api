@@ -3,46 +3,31 @@ import { Grade } from './Grades.js'
 import { Registration } from './Registrations.js'
 import { Student } from './Students.js'
 
-// note: 1-m
-Course.hasMany(Registration, {
-  foreignKey: 'courseId',
-  sourceKey: 'id'
+Course.hasMany(Grade, { foreignKey: 'course_id' })
+
+// Una nota pertenece a un curso
+Grade.belongsTo(Course, { foreignKey: 'course_id' })
+
+// Un estudiante puede tener muchas notas
+Student.hasMany(Grade, { foreignKey: 'student_id' })
+
+// Una nota pertenece a un estudiante
+Grade.belongsTo(Student, { foreignKey: 'student_id' })
+
+// Un estudiante puede registrarse en muchos cursos
+Student.belongsToMany(Course, {
+  through: Registration,
+  foreignKey: 'student_id',
+  otherKey: 'course_id'
 })
 
-Registration.belongsTo(Course, {
-  foreignKey: 'courseId',
-  targetKey: 'id'
+// Un curso puede ser registrado por muchos estudiantes
+Course.belongsToMany(Student, {
+  through: Registration,
+  foreignKey: 'course_id',
+  otherKey: 'student_id'
 })
 
-// note: 1-m
-Student.hasMany(Registration, {
-  foreignKey: 'studenId',
-  sourceKey: 'id'
-})
-
-Grade.belongsTo(Student, {
-  foreignKey: 'studenId',
-  targetKey: 'id'
-})
-
-// note: 1-m
-Course.hasMany(Grade, {
-  foreignKey: 'courseId',
-  sourceKey: 'id'
-})
-
-Grade.belongsTo(Course, {
-  foreignKey: 'courseId',
-  targetKey: 'id'
-})
-
-// note: 1-m
-Student.hasMany(Registration, {
-  foreignKey: 'studenId',
-  sourceKey: 'id'
-})
-
-Registration.belongsTo(Course, {
-  foreignKey: 'studenId',
-  targetKey: 'id'
-})
+// Una inscripción pertenece a un estudiante y a un curso
+Registration.belongsTo(Student, { foreignKey: 'student_id' })
+Registration.belongsTo(Course, { foreignKey: 'course_id' })

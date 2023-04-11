@@ -2,17 +2,17 @@ import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
 
 export const Course = conectionSequelize.define('courses', {
-  id: {
+  course_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4
   },
-  name: {
+  course_name: {
     type: DataTypes.STRING(120),
     allowNull: false,
     unique: true
   },
-  description: {
+  course_description: {
     type: DataTypes.TEXT,
     allowNull: true
   },
@@ -28,4 +28,4 @@ export const Course = conectionSequelize.define('courses', {
     type: DataTypes.STRING(),
     allowNull: false
   }
-})
+}, { timestamps: false })

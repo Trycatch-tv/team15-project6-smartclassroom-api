@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
 
 export const Registration = conectionSequelize.define('registrations', {
-  id: {
+  registration_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4
