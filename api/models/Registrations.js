@@ -15,4 +15,4 @@ export const Registration = conectionSequelize.define('registrations', {
     type: DataTypes.DATEONLY(),
     allowNull: false
   }
-})
+}, { timestamps: false })

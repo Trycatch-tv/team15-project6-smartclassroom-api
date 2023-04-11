@@ -24,6 +24,7 @@ export const createCourse = async (req, res) => {
     res.status(404).json(err)
   }
 }
+
 export const getCourses = async (req, res) => {
   try {
     const courses = await Course.findAll()
@@ -35,10 +36,10 @@ export const getCourses = async (req, res) => {
       endDate: course.end_date,
       teacher: course.teacher
     }))
+
     res.status(200).json(courseList)
   } catch (err) {
     // Si ocurre algún error, enviamos una respuesta con un mensaje de error y un código de estado HTTP 500 (Error interno del servidor)
-    console.log(err)
     res.status(500).json(err)
   }
 }
