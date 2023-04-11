@@ -7,7 +7,7 @@ export const Student = conectionSequelize.define('students', {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4
   },
-  name: {
+  student_name: {
     type: DataTypes.STRING(),
     allowNull: false
   },
@@ -19,4 +19,4 @@ export const Student = conectionSequelize.define('students', {
     type: DataTypes.STRING(20),
     allowNull: false
   }
-})
+}, { timestamps: false })

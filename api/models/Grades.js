@@ -22,4 +22,4 @@ export const Grade = conectionSequelize.define('grades', {
   grade5: {
     type: DataTypes.FLOAT(2, 2)
   }
-})
+}, { timestamps: false })
