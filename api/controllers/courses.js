@@ -42,3 +42,20 @@ export const getCourses = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+export const deleteCourse = async (req, res) => {
+  const courseId = req.params.id
+
+  try {
+    const course = await Course.destroy({ where: { course_id: courseId } })
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' })
+    }
+
+    return res.status(200).json(course)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+}
