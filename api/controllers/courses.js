@@ -1,4 +1,6 @@
 import { Course } from '../models/Courses.js'
+import { Grade } from '../models/Grades.js'
+import { Registration } from '../models/Registrations.js'
 
 export const courseDetail = async (req, res) => {
   const courseId = req.params.id
@@ -47,13 +49,15 @@ export const deleteCourse = async (req, res) => {
   const courseId = req.params.id
 
   try {
+    const courseGrade = await Grade.destroy({ where: { course_id: courseId } })
+    const courseRegistration = await Registration.destroy({ where: { course_id: courseId } })
     const course = await Course.destroy({ where: { course_id: courseId } })
 
-    if (!course) {
+    if (!course && !courseRegistration && !courseGrade) {
       return res.status(404).json({ error: 'Course not found' })
     }
 
-    return res.status(200).json(course)
+    return res.status(200).json(course, courseRegistration, courseGrade)
   } catch (err) {
     console.log(err)
     res.status(500).json(err)
