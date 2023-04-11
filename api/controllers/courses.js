@@ -1,4 +1,4 @@
-import { Course } from '../models/CoursesMod.js'
+import { Course } from '../models/Courses.js'
 
 export const courseDetail = async (req, res) => {
   const courseId = req.params.id

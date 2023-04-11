@@ -1,4 +1,4 @@
-import { Course } from './CoursesMod.js'
+import { Course } from './Courses.js'
 import { Grade } from './Grades.js'
 import { Registration } from './Registrations.js'
 import { Student } from './Students.js'
