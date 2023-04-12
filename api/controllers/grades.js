@@ -2,7 +2,7 @@ import { Course } from '../models/Courses.js'
 import { Grade } from '../models/Grades.js'
 import { Student } from '../models/Students.js'
 
-export const getGrades = async (req, res) => {
+export const getGradesByCourse = async (req, res) => {
   try {
     const courseId = req.query.course_id
     const course = await Course.findOne({
@@ -38,7 +38,6 @@ export const getGrades = async (req, res) => {
     }))
     return res.status(200).json(data)
   } catch (err) {
-    console.log(err)
     return res.status(500).json({ message: 'Internal server error' })
   }
 }

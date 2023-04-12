@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { getGrades } from '../controllers/grades.js'
+import { getGradesByCourse } from '../controllers/grades.js'
 
 const route = Router()
 
-route.get('/grades', getGrades)
+route.get('/grades', getGradesByCourse)
 export default route
