@@ -31,6 +31,7 @@ export const getGradesByCourse = async (req, res) => {
     })
     // Modelando los datos para mostrarlos
     const data = grades.map(grade => ({
+      student_name: grade.student.student_name,
       grade1: grade.grade1,
       grade2: grade.grade2,
       grade3: grade.grade3,
@@ -64,7 +65,6 @@ export const getGradesByStudent = async (req, res) => {
       ]
     })
     const data = grades.map(grade => ({
-      student_name: grade.student.student_name,
       course_name: grade.course.course_name,
       grade1: grade.grade1,
       grade2: grade.grade2,
