@@ -3,9 +3,9 @@ import { conectionSequelize } from '../databases/db.js'
 
 export const Grade = conectionSequelize.define('grades', {
   grade_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: DataTypes.UUIDV4
+    autoIncrement: true
   },
   grade1: {
     type: DataTypes.FLOAT(2, 2)
