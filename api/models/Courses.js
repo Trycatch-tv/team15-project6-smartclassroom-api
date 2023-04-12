@@ -3,9 +3,9 @@ import { conectionSequelize } from '../databases/db.js'
 
 export const Course = conectionSequelize.define('courses', {
   course_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: DataTypes.UUIDV4
+    autoIncrement: true
   },
   course_name: {
     type: DataTypes.STRING(120),

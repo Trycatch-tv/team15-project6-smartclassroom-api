@@ -21,9 +21,10 @@ export const courseDetail = async (req, res) => {
 
 export const createCourse = async (req, res) => {
   try {
-    res.status(200).json({ message: 'create course' })
+    await Course.create(req.body)
+    res.sendStatus(201)
   } catch (err) {
-    res.status(404).json(err)
+    res.status(500).json(err)
   }
 }
 
