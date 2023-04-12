@@ -8,7 +8,7 @@ export const getGradesByCourse = async (req, res) => {
     if (!courseId) {
       return res.sendStatus(404)
     }
-    // Consultamos las notas de los estudiantes para el curso especificado
+    // Consultando las notas del curso especificado
     const course = await Course.findOne({
       where: { course_id: courseId }
     })
@@ -29,10 +29,8 @@ export const getGradesByCourse = async (req, res) => {
         }
       ]
     })
-    // Procesamos los datos para enviar una respuesta más simple
+    // Modelando los datos para mostrarlos
     const data = grades.map(grade => ({
-      course_name: grade.course.course_name,
-      student_name: grade.student.student_name,
       grade1: grade.grade1,
       grade2: grade.grade2,
       grade3: grade.grade3,
