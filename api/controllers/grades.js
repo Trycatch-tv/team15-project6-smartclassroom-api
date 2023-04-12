@@ -3,43 +3,42 @@ import { Grade } from '../models/Grades.js'
 import { Student } from '../models/Students.js'
 
 export const getGrades = async (req, res) => {
-  const { id } = req.params
   try {
-    const course = await Course.findByPk(id)
+    const courseId = req.query.course_id
+    const course = await Course.findOne({
+      where: { course_id: courseId }
+    })
     if (!course) {
-      return res.status(404).json({ message: `Course with id ${id} not found` })
+      return res.sendStatus(404)
     }
-
+    // Consultamos las notas de los estudiantes para el curso especificado
     const grades = await Grade.findAll({
-      where: { course_id: id },
+      where: { course_id: courseId },
+      attributes: ['grade1', 'grade2', 'grade3', 'grade4', 'grade5'],
       include: [
         {
           model: Student,
           attributes: ['student_name']
+        },
+        {
+          model: Course,
+          attributes: ['course_name']
         }
-      ],
-      attributes: ['grade1', 'grade2', 'grade3', 'grade4', 'grade5']
+      ]
     })
-
-    const gradesData = grades.map((grade) => ({
-      studentName: grade.Student.student_name,
+    // Modelando la vista de los datos a presentar
+    const data = grades.map(grade => ({
+      course_name: grade.course.course_name,
+      student_name: grade.student.student_name,
       grade1: grade.grade1,
       grade2: grade.grade2,
       grade3: grade.grade3,
       grade4: grade.grade4,
       grade5: grade.grade5
     }))
-
-    return res.status(200).json({ courseName: course.course_name, grades: gradesData })
+    return res.status(200).json(data)
   } catch (err) {
     console.log(err)
     return res.status(500).json({ message: 'Internal server error' })
   }
 }
-
-// esto ⬇️ nada mas lo puse aquí de respaldo ya que estaba probando localmente
-// PORT=3000
-// DB_USER=dev_user_SmartClassroomDB
-// DB_PWD=^^k@0j6izX&BkUFd
-// DB_NAME=smartclassroomdb
-// DB_HOST=training-db-server.mysql.database.azure.com
