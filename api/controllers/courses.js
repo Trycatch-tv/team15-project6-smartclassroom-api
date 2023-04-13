@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Course } from '../models/Courses.js'
 import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
@@ -67,24 +68,20 @@ export const deleteCourse = async (req, res) => {
 }
 
 export const putCourse = async (req, res) => {
-  const allowedProperties = ['course_name', 'course_description', 'start_date', 'end_date', 'teacher']
   try {
     const course = await Course.findByPk(req.params.id)
     if (!course) {
-      return res.status(404).json({ error: 'Course not found' })
+      return res.sendStatus(404)
     }
+    const { course_name, course_description, start_date, end_date, teacher } = req.body
+    course.course_name = course_name
+    course.course_description = course_description
+    course.start_date = start_date
+    course.end_date = end_date
+    course.teacher = teacher
 
-    const updatedProperties = {}
-    for (const key in req.body) {
-      if (key in course && allowedProperties.includes(key)) {
-        updatedProperties[key] = req.body[key]
-      } else {
-        return res.status(400).json({ error: 'Bad request' })
-      }
-    }
-
-    await course.update(updatedProperties)
-    res.status(201).json(course)
+    await course.save()
+    res.status(200).json(course)
   } catch (err) {
     res.status(500).json(err)
   }
