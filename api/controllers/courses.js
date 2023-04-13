@@ -65,3 +65,27 @@ export const deleteCourse = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+export const putCourse = async (req, res) => {
+  const allowedProperties = ['course_name', 'course_description', 'start_date', 'end_date', 'teacher']
+  try {
+    const course = await Course.findByPk(req.params.id)
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' })
+    }
+
+    const updatedProperties = {}
+    for (const key in req.body) {
+      if (key in course && allowedProperties.includes(key)) {
+        updatedProperties[key] = req.body[key]
+      } else {
+        return res.status(400).json({ error: 'Bad request' })
+      }
+    }
+
+    await course.update(updatedProperties)
+    res.status(201).json(course)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
