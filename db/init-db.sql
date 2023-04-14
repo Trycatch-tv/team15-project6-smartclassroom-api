@@ -17,7 +17,7 @@ CREATE TABLE `registrations` (
     `student_id` INT,
     `course_id` INT,
     `registration_date` DATE,
-    `cancellation_date` DATE NOT NULL
+    `cancellation_date` DATE NULL
 );
 CREATE TABLE `grades` (
     `grade_id` INT PRIMARY KEY AUTO_INCREMENT,
