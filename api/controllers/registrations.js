@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Course } from '../models/Courses.js'
 import { Registration } from '../models/Registrations.js'
 import { Student } from '../models/Students.js'
@@ -5,7 +6,7 @@ import { Student } from '../models/Students.js'
 export const createRegistration = async (req, res) => {
   try {
     // eslint-disable-next-line camelcase
-    const { student_id, course_id } = req.params
+    const { student_id, course_id } = req.body
 
     const student = await Student.findByPk(student_id)
     if (!student) {
@@ -17,12 +18,15 @@ export const createRegistration = async (req, res) => {
     // eslint-disable-next-line camelcase
     const { registration_date, cancellation_date } = req.body
 
-    // eslint-disable-next-line camelcase
-    const registration = await Registration.create({ registration_date, cancellation_date: cancellation_date || null })
+    const registration = await Registration.create({
+      // eslint-disable-next-line camelcase
+      registration_date: registration_date || null,
+      cancellation_date: cancellation_date || null
+    })
     await registration.setStudent(student)
     await registration.setCourse(course)
 
-    res.sendStatus(201).json(registration)
+    res.sendStatus(201)
   } catch (err) {
     res.status(500).json(err)
   }

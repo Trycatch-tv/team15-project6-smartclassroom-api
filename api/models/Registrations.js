@@ -9,7 +9,7 @@ export const Registration = conectionSequelize.define('registrations', {
   },
   registration_date: {
     type: DataTypes.DATEONLY(),
-    allowNull: false
+    allowNull: true
   },
   cancellation_date: {
     type: DataTypes.DATEONLY(),
