@@ -6,6 +6,7 @@ import env from './config.js'
 import courseRoute from './routes/courses.js'
 import studentRoute from './routes/students.js'
 import gradesRoute from './routes/grades.js'
+import registrationsRoute from './routes/registrations.js'
 
 // app init
 const app = express()
@@ -22,6 +23,7 @@ app.use(cors())
 app.use('/api', courseRoute)
 app.use('/api', studentRoute)
 app.use('/api', gradesRoute)
+app.use('/api', registrationsRoute)
 
 // Route Not Found
 app.use((req, res) => {
