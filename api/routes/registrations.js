@@ -4,6 +4,6 @@ import { createRegistration, deleteRegistration } from '../controllers/registrat
 const route = Router()
 
 route.post('/registrations', createRegistration)
-route.delete('/registrations/:id', deleteRegistration)
+route.delete('/registrations', deleteRegistration)
 
 export default route

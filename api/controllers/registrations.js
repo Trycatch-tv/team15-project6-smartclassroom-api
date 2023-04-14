@@ -5,22 +5,24 @@ import { Student } from '../models/Students.js'
 export const createRegistration = async (req, res) => {
   try {
     // eslint-disable-next-line camelcase
-    const { registration_date, cancellation_date, student_id, course_id } = req.body
+    const { student_id, course_id } = req.params
 
     const student = await Student.findByPk(student_id)
-    const course = await Course.findByPk(course_id)
-
-    if (!student || !course) {
+    if (!student) {
       res.sendStatus(404)
       return
     }
+    const course = await Course.findByPk(course_id)
 
     // eslint-disable-next-line camelcase
-    const registration = await Registration.create({ registration_date, cancellation_date })
+    const { registration_date, cancellation_date } = req.body
+
+    // eslint-disable-next-line camelcase
+    const registration = await Registration.create({ registration_date, cancellation_date: cancellation_date || null })
     await registration.setStudent(student)
     await registration.setCourse(course)
 
-    res.sendStatus(201)
+    res.sendStatus(201).json(registration)
   } catch (err) {
     res.status(500).json(err)
   }
@@ -28,9 +30,13 @@ export const createRegistration = async (req, res) => {
 
 export const deleteRegistration = async (req, res) => {
   try {
-    const registrationId = req.params.id
+    // eslint-disable-next-line camelcase
+    const { student_id, course_id } = req.body
 
-    const registration = await Registration.findByPk(registrationId)
+    const registration = await Registration.findOne({
+      // eslint-disable-next-line camelcase
+      where: { student_id, course_id }
+    })
 
     if (!registration) {
       res.sendStatus(404)
