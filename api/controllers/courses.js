@@ -86,3 +86,12 @@ export const putCourse = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+export const getCount = async (req, res) => {
+  try {
+    const count = await Course.count()
+    res.status(200).json({'coursesCount': count})
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}

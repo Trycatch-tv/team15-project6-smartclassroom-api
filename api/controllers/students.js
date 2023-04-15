@@ -61,3 +61,12 @@ export const deleteStudent = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+export const getCount = async (req, res) => {
+  try {
+    const count = await Student.count()
+    res.status(200).json({'studentsCount': count})
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
