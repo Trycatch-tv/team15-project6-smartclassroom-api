@@ -3,7 +3,7 @@ import request from 'supertest'
 
 describe('Controller Courses test function', () => {
   test('Should response with a 200 status, detail Course', async () => {
-    const response = await request(app).get('/api/courses/:23').send()
+    const response = await request(app).get('/api/courses/23').send()
     expect(response.statusCode).toBe(200)
   })
   test('Should response with 201 status, create Course', async () => {
