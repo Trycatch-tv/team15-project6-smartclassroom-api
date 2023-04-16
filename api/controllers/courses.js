@@ -4,9 +4,8 @@ import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
 
 export const courseDetail = async (req, res) => {
-  const courseId = req.params.id
-
   try {
+    const courseId = req.params.id
     const course = await Course.findByPk(courseId)
 
     if (!course) {
@@ -15,8 +14,7 @@ export const courseDetail = async (req, res) => {
 
     return res.status(200).json(course)
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(500).json({ error: err.message })
   }
 }
 

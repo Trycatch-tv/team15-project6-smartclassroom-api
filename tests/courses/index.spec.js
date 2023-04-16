@@ -1,4 +1,4 @@
-import app from '../api/app'
+import app from '../../api/app'
 import request from 'supertest'
 
 describe('Controller Courses test function', () => {
