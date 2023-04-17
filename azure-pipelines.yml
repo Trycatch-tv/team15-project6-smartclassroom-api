@@ -27,7 +27,9 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      name: 'Self Hosted Agents'
+      demands:
+        - agent.name -equals WindowsServer_Agent
 
     steps:
     - task: NodeTool@0
