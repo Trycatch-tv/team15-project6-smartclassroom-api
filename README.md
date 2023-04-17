@@ -1,5 +1,4 @@
 # Smart Classroom API
-[![Build Status](https://dev.azure.com/LuisLopezOrg/SmartClassroom/_apis/build/status%2FBuild%20SmartClassroom%20API%20-%20DEV?branchName=develop)](https://dev.azure.com/LuisLopezOrg/SmartClassroom/_build/latest?definitionId=2&branchName=develop)
 
 This repository contains the backend code for the Smart Classroom application, built with Node.Js and Express.Js. It also uses a MySQL database for data storage.
 
