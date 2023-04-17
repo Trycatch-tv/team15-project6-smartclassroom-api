@@ -6,20 +6,6 @@
 trigger:
 - develop
 
-variables:
-
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '53584fad-03ad-439d-9495-a3764200e921'
-
-  # Web app name
-  webAppName: 'dev-smartclassroom'
-
-  # Environment name
-  environmentName: 'dev-smartclassroom'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
 stages:
 - stage: Build
   displayName: Build stage
