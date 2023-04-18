@@ -129,7 +129,7 @@ describe('getGradesByStudent', () => {
 
     expect(res.sendStatus.mock.calls.length).toBe(1)
     expect(res.sendStatus.mock.calls[0][0]).toBe(404)
-    // making fail this parta
+    // making fail this part
     // expect(res.sendStatus.mock.calls.length).toBe(2)
   })
 })
