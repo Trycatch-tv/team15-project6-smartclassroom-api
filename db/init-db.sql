@@ -1,3 +1,6 @@
+CREATE DATABASE SmartClassroomDB;
+USE SmartClassroomDB;
+
 CREATE TABLE `courses` (
     `course_id` INT PRIMARY KEY AUTO_INCREMENT,
     `course_name` VARCHAR(255),

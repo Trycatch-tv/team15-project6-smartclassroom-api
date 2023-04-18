@@ -1,16 +1,60 @@
-# SmartClassroom API
-## Requirements ⚠️
-- Have or install Node.js  [👉 go to download](https://nodejs.org/es/download)
-- Guide with more details (to install Node.js) [👉 Guide](https://kinsta.com/blog/how-to-install-node-js/)
-- To install npm (Node Package Manager), you need to install Node.js, which comes with npm pre-installed. (this means that you already have npm 👍)
-## For initializing the server 🔌
-- First, to start the server you have to create an .env file in the root of the project.
-- Use the following variables: PORT, DB_USER, DB_PWD, DB_NAME, DB_HOST.
-- You can also create the .env file based on the .env.template file
-- Finally, add your own values for those variables ⬆️
-- Now you're able to follow the next steps ⬇️
-## Command list 📄
-### Installing all the dependencies ⚙️
-- `npm install`
-### Running the project 🖥️
-- `npm run dev`
+# Smart Classroom API
+[![Build Status](https://dev.azure.com/LuisLopezOrg/SmartClassroom/_apis/build/status%2FBuild%20SmartClassroom%20API%20-%20DEV?branchName=develop)](https://dev.azure.com/LuisLopezOrg/SmartClassroom/_build/latest?definitionId=2&branchName=develop)
+
+This repository contains the backend code for the Smart Classroom application, built with Node.Js and Express.Js. It also uses a MySQL database for data storage.
+
+## 📋 Prerequisites
+Before running the code, the following prerequisites must be met:
+
+- Node.Js must be installed (version 18 or higher)
+- MySQL must be installed
+
+## 🚀 Installation
+1. Clone the repository on your local machine.
+```sh
+git clone https://github.com/Trycatch-tv/team15-project6-smartclassroom-api.git
+```
+
+2. Navigate to the repository folder.
+```sh
+cd team15-project6-smartclassroom-api
+```
+
+3. Install the dependencies.
+```sh
+npm install
+```
+
+4. Create a **'.env'** file in the project root and configure the necessary environment variables for the MySQL database connection.
+```javascript
+DB_HOST=serverUrl
+DB_USER=username
+DB_PASSWORD=password
+DB_NAME=SmartClassroomDB
+```
+
+5. Run the server.
+```sh
+npm start
+```
+
+The server will run on http://localhost:3001.
+
+## 🔬 Unit Tests
+```sh
+npm test
+```
+This will run all of the tests in the **'tests'** folder using the Jest test framework.
+
+## 📖 Usage
+The Smart Classroom backend API is designed to be consumed by the application frontend. The API documentation is available [here](https://docs.google.com/document/d/1w90BNus2SGBJtNl7b1vn-wyo6W5a8GFgv5v3kku4Qeg/edit?usp=sharing).
+
+## 🎉 Demo
+To see a live demo of the Smart Classroom application, please visit the following URL:
+https://dev-smartclassroom-web.azurewebsites.net
+
+## 🤝 Contributions
+If you wish to contribute to the development of Smart Classroom, please submit a pull request with your proposed changes. Make sure your changes are compatible with the MIT license.
+
+## 📝 License
+This project is licensed under the MIT License. See the LICENSE file for more information.
