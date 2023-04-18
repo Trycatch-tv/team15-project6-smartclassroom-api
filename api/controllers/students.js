@@ -4,7 +4,7 @@ import { Registration } from '../models/Registrations.js'
 
 export const getStudents = async (req, res) => {
   try {
-    const students = await Student.findAll()
+    const students = await Student.findAll({ order: [['student_name', 'ASC']] })
 
     const studenList = students.map(student => ({
       id: student.student_id,
@@ -65,7 +65,34 @@ export const deleteStudent = async (req, res) => {
 export const getCount = async (req, res) => {
   try {
     const count = await Student.count()
-    res.status(200).json({'studentsCount': count})
+    res.status(200).json({ studentsCount: count })
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+export const createStudent = async (req, res) => {
+  try {
+    await Student.create(req.body)
+    res.sendStatus(201)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+export const putStudent = async (req, res) => {
+  try {
+    const course = await Student.findByPk(req.params.id)
+    if (!course) {
+      return res.sendStatus(404)
+    }
+    const { student_name, email, phone } = req.body
+    course.student_name = student_name
+    course.email = email
+    course.phone = phone
+
+    await course.save()
+    res.status(200).json(course)
   } catch (err) {
     res.status(500).json(err)
   }
