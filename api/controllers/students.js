@@ -82,17 +82,17 @@ export const createStudent = async (req, res) => {
 
 export const putStudent = async (req, res) => {
   try {
-    const course = await Student.findByPk(req.params.id)
-    if (!course) {
+    const student = await Student.findByPk(req.params.id)
+    if (!student) {
       return res.sendStatus(404)
     }
     const { student_name, email, phone } = req.body
-    course.student_name = student_name
-    course.email = email
-    course.phone = phone
+    student.student_name = student_name
+    student.email = email
+    student.phone = phone
 
-    await course.save()
-    res.status(200).json(course)
+    await student.save()
+    res.status(200).json(student)
   } catch (err) {
     res.status(500).json(err)
   }
