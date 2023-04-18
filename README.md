@@ -51,7 +51,7 @@ The Smart Classroom backend API is designed to be consumed by the application fr
 
 ## 🎉 Demo
 To see a live demo of the Smart Classroom application, please visit the following URL:
-https://dev-smartclassroom-web.azurewebsites.net/about-us
+https://dev-smartclassroom-web.azurewebsites.net
 
 ## 🤝 Contributions
 If you wish to contribute to the development of Smart Classroom, please submit a pull request with your proposed changes. Make sure your changes are compatible with the MIT license.
