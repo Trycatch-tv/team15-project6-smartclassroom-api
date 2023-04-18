@@ -49,6 +49,10 @@ This will run all of the tests in the **'tests'** folder using the Jest test fra
 ## 📖 Usage
 The Smart Classroom backend API is designed to be consumed by the application frontend. The API documentation is available [here](https://docs.google.com/document/d/1w90BNus2SGBJtNl7b1vn-wyo6W5a8GFgv5v3kku4Qeg/edit?usp=sharing).
 
+## 🎉 Demo
+To see a live demo of the Smart Classroom application, please visit the following URL:
+https://dev-smartclassroom-web.azurewebsites.net/about-us
+
 ## 🤝 Contributions
 If you wish to contribute to the development of Smart Classroom, please submit a pull request with your proposed changes. Make sure your changes are compatible with the MIT license.
 
