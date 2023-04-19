@@ -23,7 +23,7 @@ export const createCourse = async (req, res) => {
     await Course.create(req.body)
     res.sendStatus(201)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
@@ -42,26 +42,26 @@ export const getCourses = async (req, res) => {
     res.status(200).json(courseList)
   } catch (err) {
     // Si ocurre algún error, enviamos una respuesta con un mensaje de error y un código de estado HTTP 500 (Error interno del servidor)
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
 export const deleteCourse = async (req, res) => {
-  const courseId = req.params.id
-
   try {
-    const courseGrade = await Grade.destroy({ where: { course_id: courseId } })
-    const courseRegistration = await Registration.destroy({ where: { course_id: courseId } })
-    const course = await Course.destroy({ where: { course_id: courseId } })
+    const courseId = req.params.id
+    const courseToDelete = await Course.findByPk(courseId)
 
-    if (!course && !courseRegistration && !courseGrade) {
+    if(courseToDelete == null){
       return res.status(404).json({ error: 'Course not found' })
     }
+    
+    await Grade.destroy({ where: { course_id: courseId } })
+    await Registration.destroy({ where: { course_id: courseId } })
+    await Course.destroy({ where: { course_id: courseId } })
 
-    return res.status(200).json(course, courseRegistration, courseGrade)
+    return res.sendStatus(200)
   } catch (err) {
-    console.log(err)
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
@@ -81,68 +81,6 @@ export const putCourse = async (req, res) => {
     await course.save()
     res.status(200).json(course)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
-
-describe('putCourse', () => {
-  it('should update a course when given a valid course id', async () => {
-    const fakeCourse = {
-      course_id: 1,
-      course_name: 'fake course',
-      course_description: 'fake course description',
-      start_date: new Date(),
-      end_date: new Date(),
-      teacher: 'fake teacher'
-    }
-
-    const courseSaveStub = sinon.stub().resolves(fakeCourse)
-    const findByPkStub = sinon.stub(Course, 'findByPk').resolves({
-      ...fakeCourse,
-      save: courseSaveStub
-    })
-    const req = { params: { id: 1 }, body: fakeCourse }
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      json: sinon.spy()
-    }
-
-    await putCourse(req, res)
-
-    sinon.assert.calledWith(findByPkStub, 1)
-    sinon.assert.calledOnce(courseSaveStub)
-    sinon.assert.calledOnce(res.json)
-    sinon.assert.calledWith(res.json, fakeCourse)
-
-    findByPkStub.restore()
-  })
-
-  it('should return a 404 when given an invalid course id', async () => {
-    const findByPkStub = sinon.stub(Course, 'findByPk').resolves(null)
-    const req = { params: { id: 1 }, body: {} }
-    const res = { sendStatus: sinon.spy() }
-
-    await putCourse(req, res)
-
-    sinon.assert.calledWith(findByPkStub, 1)
-    sinon.assert.calledWith(res.sendStatus, 404)
-
-    findByPkStub.restore()
-  })
-
-  it('should return a 500 error when an error occurs', async () => {
-    const findByPkStub = sinon.stub(Course, 'findByPk').rejects(new Error('fake error'))
-    const req = { params: { id: 1 }, body: {} }
-    const res = { status: sinon.stub().returnsThis(), json: sinon.spy() }
-
-    await putCourse(req, res)
-
-    sinon.assert.calledWith(findByPkStub, 1)
-    sinon.assert.calledWith(res.status, 500)
-    sinon.assert.calledOnce(res.json)
-    sinon.assert.calledWith(res.json, { message: 'fake error' })
-
-    findByPkStub.restore()
-  })
-})
-
