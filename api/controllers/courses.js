@@ -90,6 +90,6 @@ export const getCount = async (req, res) => {
     const count = await Course.count()
     res.status(200).json({ coursesCount: count })
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
