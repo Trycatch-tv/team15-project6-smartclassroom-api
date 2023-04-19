@@ -1,5 +1,5 @@
-import { getCount } from '../api/controllers/courses'
-import { Course } from '../api/models/Courses'
+import { getCount } from '../../api/controllers/courses'
+import { Course } from '../../api/models/Courses'
 import sinon from 'sinon'
 
 describe('getCount', () => {
