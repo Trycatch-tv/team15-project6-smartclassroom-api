@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles --forceExit --testTimeout=10000",
-    "test": "jest --runInBand --detectOpenHandles --forceExit --testTimeout=10000",
+    "test": "jest",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
