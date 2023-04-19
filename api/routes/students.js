@@ -111,6 +111,47 @@ route.get('/students/getCount', getCount)
 
 /**
  * @openapi
+ * 
+ * /api/courses/not-enrolled-students:
+ *   get:
+ *     tags:
+ *       - Courses
+ *     summary: Devuelve la lista de estudiantes que no están matriculados en un curso específico.
+ *     parameters:
+ *       - name: courseId
+ *         in: query
+ *         required: true
+ *         description: ID del curso del que se desea obtener la lista de estudiantes no matriculados.
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *     responses:
+ *       '200':
+ *         description: Lista de estudiantes no matriculados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: ID del estudiante.
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     description: Nombre del estudiante.
+ *                     example: "John Doe"
+ *        404:
+ *         description: Not Found.
+ *        500:
+ *         description: unhandled exception.
+ */
+route.get('/students/getStudentsNotInCourse', notEnrolledStudent)
+
+/**
+ * @openapi
  * '/api/students/{id}':
  *  get:
  *     tags:
