@@ -7,16 +7,6 @@ trigger:
 - develop
 
 variables:
-
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '53584fad-03ad-439d-9495-a3764200e921'
-
-  # Web app name
-  webAppName: 'dev-smartclassroom'
-
-  # Environment name
-  environmentName: 'dev-smartclassroom'
-
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -32,13 +22,13 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '10.x'
+        versionSpec: '18.x'
       displayName: 'Install Node.js'
 
     - script: |
         npm install
         npm run build --if-present
-        # npm run test --if-present
+        npm run test --if-present
       displayName: 'npm install, build and test'
 
     - task: ArchiveFiles@2

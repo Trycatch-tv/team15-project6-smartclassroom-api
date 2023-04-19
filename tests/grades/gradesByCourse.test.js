@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 // adding and importing the necessary dependencies and modules
-import { getGradesByCourse } from '../api/controllers/grades'
-import { Course } from '../api/models/Courses'
-import { Grade } from '../api/models/Grades'
-import { Student } from '../api/models/Students'
+import { getGradesByCourse } from '../../api/controllers/grades'
+import { Course } from '../../api/models/Courses'
+import { Grade } from '../../api/models/Grades'
+import { Student } from '../../api/models/Students'
 import sinon from 'sinon'
 
 describe('getGradesByCourse', () => {

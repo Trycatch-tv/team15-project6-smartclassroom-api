@@ -4,9 +4,8 @@ import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
 
 export const courseDetail = async (req, res) => {
-  const courseId = req.params.id
-
   try {
+    const courseId = req.params.id
     const course = await Course.findByPk(courseId)
 
     if (!course) {
@@ -15,8 +14,7 @@ export const courseDetail = async (req, res) => {
 
     return res.status(200).json(course)
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(500).json({ error: err.message })
   }
 }
 
@@ -25,7 +23,7 @@ export const createCourse = async (req, res) => {
     await Course.create(req.body)
     res.sendStatus(201)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
@@ -44,26 +42,26 @@ export const getCourses = async (req, res) => {
     res.status(200).json(courseList)
   } catch (err) {
     // Si ocurre algún error, enviamos una respuesta con un mensaje de error y un código de estado HTTP 500 (Error interno del servidor)
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
 export const deleteCourse = async (req, res) => {
-  const courseId = req.params.id
-
   try {
-    const courseGrade = await Grade.destroy({ where: { course_id: courseId } })
-    const courseRegistration = await Registration.destroy({ where: { course_id: courseId } })
-    const course = await Course.destroy({ where: { course_id: courseId } })
+    const courseId = req.params.id
+    const courseToDelete = await Course.findByPk(courseId)
 
-    if (!course && !courseRegistration && !courseGrade) {
+    if(courseToDelete == null){
       return res.status(404).json({ error: 'Course not found' })
     }
+    
+    await Grade.destroy({ where: { course_id: courseId } })
+    await Registration.destroy({ where: { course_id: courseId } })
+    await Course.destroy({ where: { course_id: courseId } })
 
-    return res.status(200).json(course, courseRegistration, courseGrade)
+    return res.sendStatus(200)
   } catch (err) {
-    console.log(err)
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
@@ -83,7 +81,7 @@ export const putCourse = async (req, res) => {
     await course.save()
     res.status(200).json(course)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json({ error: err.message })
   }
 }
 
