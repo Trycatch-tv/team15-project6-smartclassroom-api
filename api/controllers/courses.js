@@ -29,7 +29,7 @@ export const createCourse = async (req, res) => {
 
 export const getCourses = async (req, res) => {
   try {
-    const courses = await Course.findAll()
+    const courses = await Course.findAll({ order: [['course_name', 'ASC']] })
     const courseList = courses.map(course => ({
       id: course.course_id,
       name: course.course_name,
@@ -82,5 +82,14 @@ export const putCourse = async (req, res) => {
     res.status(200).json(course)
   } catch (err) {
     res.status(500).json({ error: err.message })
+  }
+}
+
+export const getCount = async (req, res) => {
+  try {
+    const count = await Course.count()
+    res.status(200).json({ coursesCount: count })
+  } catch (err) {
+    res.status(500).json(err)
   }
 }

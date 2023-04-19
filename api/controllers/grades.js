@@ -21,7 +21,7 @@ export const getGradesByCourse = async (req, res) => {
       include: [
         {
           model: Student,
-          attributes: ['student_name']
+          attributes: ['student_id', 'student_name']
         },
         {
           model: Course,
@@ -31,7 +31,8 @@ export const getGradesByCourse = async (req, res) => {
     })
     // Modelando los datos para mostrarlos
     const data = grades.map(grade => ({
-      student_name: grade.student.student_name,
+      studentId: grade.student.student_id,
+      studentName: grade.student.student_name,
       grade1: grade.grade1,
       grade2: grade.grade2,
       grade3: grade.grade3,
@@ -48,7 +49,14 @@ export const getGradesByStudent = async (req, res) => {
   try {
     const studentId = req.params.id
     if (!studentId) {
-      return res.status(404).json({ message: `Student with id: ${studentId} not found` })
+      return res.sendStatus(404)
+    }
+    // Consultando las notas del curso especificado
+    const student = await Student.findOne({
+      where: { student_id: studentId }
+    })
+    if (!student) {
+      return res.sendStatus(404)
     }
     const grades = await Grade.findAll({
       where: { student_id: studentId },
@@ -60,19 +68,20 @@ export const getGradesByStudent = async (req, res) => {
         },
         {
           model: Course,
-          attributes: ['course_name']
+          attributes: ['course_id', 'course_name']
         }
       ]
     })
     const data = grades.map(grade => ({
-      course_name: grade.course.course_name,
+      courseId: grade.course.course_id,
+      courseName: grade.course.course_name,
       grade1: grade.grade1,
       grade2: grade.grade2,
       grade3: grade.grade3,
       grade4: grade.grade4,
       grade5: grade.grade5
     }))
-    res.status(200).json(data)
+    return res.status(200).json(data)
   } catch (err) {
     return res.status(500).json(err)
   }

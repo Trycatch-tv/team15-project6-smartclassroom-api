@@ -6,6 +6,8 @@ import env from './config.js'
 import courseRoute from './routes/courses.js'
 import studentRoute from './routes/students.js'
 import gradesRoute from './routes/grades.js'
+import registrationsRoute from './routes/registrations.js'
+import swaggerDocs from './swagger.js'
 
 // app init
 const app = express()
@@ -17,11 +19,13 @@ app.set('port', env.PORT)
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors())
+swaggerDocs(app)
 
 // Routes
 app.use('/api', courseRoute)
 app.use('/api', studentRoute)
 app.use('/api', gradesRoute)
+app.use('/api', registrationsRoute)
 
 // Route Not Found
 app.use((req, res) => {

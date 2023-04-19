@@ -1,3 +1,6 @@
+CREATE DATABASE SmartClassroomDB;
+USE SmartClassroomDB;
+
 CREATE TABLE `courses` (
     `course_id` INT PRIMARY KEY AUTO_INCREMENT,
     `course_name` VARCHAR(255),
@@ -17,7 +20,7 @@ CREATE TABLE `registrations` (
     `student_id` INT,
     `course_id` INT,
     `registration_date` DATE,
-    `cancellation_date` DATE NOT NULL
+    `cancellation_date` DATE NULL
 );
 CREATE TABLE `grades` (
     `grade_id` INT PRIMARY KEY AUTO_INCREMENT,
