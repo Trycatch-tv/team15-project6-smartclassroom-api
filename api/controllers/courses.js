@@ -84,3 +84,65 @@ export const putCourse = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+describe('putCourse', () => {
+  it('should update a course when given a valid course id', async () => {
+    const fakeCourse = {
+      course_id: 1,
+      course_name: 'fake course',
+      course_description: 'fake course description',
+      start_date: new Date(),
+      end_date: new Date(),
+      teacher: 'fake teacher'
+    }
+
+    const courseSaveStub = sinon.stub().resolves(fakeCourse)
+    const findByPkStub = sinon.stub(Course, 'findByPk').resolves({
+      ...fakeCourse,
+      save: courseSaveStub
+    })
+    const req = { params: { id: 1 }, body: fakeCourse }
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: sinon.spy()
+    }
+
+    await putCourse(req, res)
+
+    sinon.assert.calledWith(findByPkStub, 1)
+    sinon.assert.calledOnce(courseSaveStub)
+    sinon.assert.calledOnce(res.json)
+    sinon.assert.calledWith(res.json, fakeCourse)
+
+    findByPkStub.restore()
+  })
+
+  it('should return a 404 when given an invalid course id', async () => {
+    const findByPkStub = sinon.stub(Course, 'findByPk').resolves(null)
+    const req = { params: { id: 1 }, body: {} }
+    const res = { sendStatus: sinon.spy() }
+
+    await putCourse(req, res)
+
+    sinon.assert.calledWith(findByPkStub, 1)
+    sinon.assert.calledWith(res.sendStatus, 404)
+
+    findByPkStub.restore()
+  })
+
+  it('should return a 500 error when an error occurs', async () => {
+    const findByPkStub = sinon.stub(Course, 'findByPk').rejects(new Error('fake error'))
+    const req = { params: { id: 1 }, body: {} }
+    const res = { status: sinon.stub().returnsThis(), json: sinon.spy() }
+
+    await putCourse(req, res)
+
+    sinon.assert.calledWith(findByPkStub, 1)
+    sinon.assert.calledWith(res.status, 500)
+    sinon.assert.calledOnce(res.json)
+    sinon.assert.calledWith(res.json, { message: 'fake error' })
+
+    findByPkStub.restore()
+  })
+})
+
