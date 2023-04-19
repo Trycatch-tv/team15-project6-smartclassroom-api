@@ -49,7 +49,14 @@ export const getGradesByStudent = async (req, res) => {
   try {
     const studentId = req.params.id
     if (!studentId) {
-      return res.status(404).json({ message: `Student with id: ${studentId} not found` })
+      return res.sendStatus(404)
+    }
+    // Consultando las notas del curso especificado
+    const student = await Student.findOne({
+      where: { student_id: studentId }
+    })
+    if (!student) {
+      return res.sendStatus(404)
     }
     const grades = await Grade.findAll({
       where: { student_id: studentId },
@@ -74,7 +81,7 @@ export const getGradesByStudent = async (req, res) => {
       grade4: grade.grade4,
       grade5: grade.grade5
     }))
-    res.status(200).json(data)
+    return res.status(200).json(data)
   } catch (err) {
     return res.status(500).json(err)
   }
