@@ -9,7 +9,7 @@ export const getStudents = async (req, res) => {
 
     const studenList = students.map(student => ({
       id: student.student_id,
-      name: student.student_name,
+      studentName: student.student_name,
       email: student.email,
       phone: student.phone
     }))
@@ -32,15 +32,14 @@ export const studentDetail = async (req, res) => {
 
     const studentDetail = {
       id: student.student_id,
-      name: student.student_name,
+      studentName: student.student_name,
       email: student.email,
       phone: student.phone
     }
 
     return res.status(200).json(studentDetail)
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(500).json(err)
   }
 }
 
@@ -58,7 +57,6 @@ export const deleteStudent = async (req, res) => {
 
     return res.status(200).json({ message: 'User deleted' })
   } catch (err) {
-    console.log(err)
     res.status(500).json(err)
   }
 }
@@ -74,7 +72,13 @@ export const getCount = async (req, res) => {
 
 export const createStudent = async (req, res) => {
   try {
-    await Student.create(req.body)
+    const newStudent = {
+      student_name: req.body.studentName,
+      email: req.body.email,
+      phone: req.body.phone
+    }
+
+    await Student.create(newStudent)
     res.sendStatus(201)
   } catch (err) {
     res.status(500).json(err)
@@ -87,8 +91,8 @@ export const putStudent = async (req, res) => {
     if (!student) {
       return res.sendStatus(404)
     }
-    const { student_name, email, phone } = req.body
-    student.student_name = student_name
+    const { studentName, email, phone } = req.body
+    student.student_name = studentName
     student.email = email
     student.phone = phone
 
