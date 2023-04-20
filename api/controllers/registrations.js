@@ -43,9 +43,6 @@ export const deleteRegistration = async (req, res) => {
     })
 
     if (!registration) {
-      // For use the tes: "deleteRegistration.test.js" you have to use the next line
-      // And comment this: res.sendStatus(404)
-      // res.status(404).json({ error: 'Registration not found' })
       res.sendStatus(404)
       return
     }

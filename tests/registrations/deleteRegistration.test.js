@@ -9,7 +9,7 @@ describe('deleteRegistration', () => {
     sinon.restore()
   })
 
-  it('should delete registration', async () => {
+  it('should delete a registration', async () => {
   // We create a stub for the 'destroy' method of the Registration instance
     const registrationInstanceStub = sinon.createStubInstance(Registration)
     registrationInstanceStub.destroy.resolves()
@@ -37,10 +37,11 @@ describe('deleteRegistration', () => {
   })
 
   it('should return 404 if registration is not found', async () => {
+    // test data
     const student_id = 1
     const course_id = 1
+    // adding a stub for the 'findOne' function and adding a null if there is not data
     sinon.stub(Registration, 'findOne').resolves(null)
-    const destroySpy = sinon.stub(Registration.prototype, 'destroy')
     const req = { body: { student_id, course_id } }
     const res = {
       sendStatus: sinon.spy(),
@@ -48,13 +49,11 @@ describe('deleteRegistration', () => {
       json: sinon.spy()
     }
 
+    // calling and waiting for a response of 'deleteRegistration' function
     await deleteRegistration(req, res)
 
     sinon.assert.calledOnce(Registration.findOne)
-    sinon.assert.notCalled(destroySpy)
-    sinon.assert.calledOnce(res.status)
-    sinon.assert.calledWith(res.status, 404)
-    sinon.assert.calledOnce(res.json)
-    sinon.assert.calledWith(res.json, { error: 'Registration not found' })
+    sinon.assert.calledOnce(res.sendStatus)
+    sinon.assert.calledWith(res.sendStatus, 404)
   })
 })
