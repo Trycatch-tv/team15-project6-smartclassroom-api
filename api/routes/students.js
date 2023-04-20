@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getStudents, studentDetail, deleteStudent, getCount, createStudent, putStudent } from '../controllers/students.js'
+import { getStudents, studentDetail, deleteStudent, getCount, createStudent, putStudent, notEnrolledStudent } from '../controllers/students.js'
 
 const route = Router()
 
@@ -110,8 +110,7 @@ route.get('/students', getStudents)
 route.get('/students/getCount', getCount)
 
 /**
- * @openapi
- * 
+ * @openapi 
  * /api/courses/not-enrolled-students:
  *   get:
  *     tags:

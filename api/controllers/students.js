@@ -101,31 +101,31 @@ export const putStudent = async (req, res) => {
 
 export const notEnrolledStudent = async (req, res) => {
   try {
-    const courseId = req.query.courseId;
-    const course = await Course.findByPk(courseId);
+    const courseId = req.query.courseId
+    const course = await Course.findByPk(courseId)
     if (!course) {
-      return res.sendStatus(404);
+      return res.sendStatus(404)
     }
 
     // Obtener todos los estudiantes matriculados en el curso
-    const enrolledStudents = await course.getStudents();
+    const enrolledStudents = await course.getStudents()
 
     const enrolledStudentsIdName = enrolledStudents.map(student => ({
       id: student.student_id,
       name: student.student_name
-    }));
+    }))
 
     // Obtener todos los estudiantes y sus IDs
-    const allStudents = await Student.findAll({ order: [['student_name', 'ASC']] });
-    const studentList = allStudents.map(student => ({ id: student.student_id, name: student.student_name }));
+    const allStudents = await Student.findAll({ order: [['student_name', 'ASC']] })
+    const studentList = allStudents.map(student => ({ id: student.student_id, name: student.student_name }))
 
     // Obtener la lista de estudiantes que no están matriculados en el curso
     const nonEnrolledStudents = studentList.filter(student => !enrolledStudentsIdName.some(({ id }) => id === student.id))
-     .map(({ id, name }) => ({ id, name }));
+     .map(({ id, name }) => ({ id, name }))
 
-    res.status(200).json(nonEnrolledStudents);
+    res.status(200).json(nonEnrolledStudents)
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err)
   }
-};
+}
 
