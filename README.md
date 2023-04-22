@@ -41,6 +41,7 @@ npm install
 
 4. Create a **'.env'** file in the project root and configure the necessary environment variables for the MySQL database connection.
 ```javascript
+PORT=3005
 DB_HOST=serverUrl
 DB_USER=username
 DB_PASSWORD=password
@@ -52,7 +53,7 @@ DB_NAME=SmartClassroomDB
 npm start
 ```
 
-The server will run on http://localhost:3001.
+The server will run on http://localhost:3005.
 
 ## 🔬 Unit Tests
 ```sh
