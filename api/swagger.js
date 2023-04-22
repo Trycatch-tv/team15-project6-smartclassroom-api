@@ -5,8 +5,8 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Smart Classroom',
-      description: 'Smart Classroom API',
+      title: 'Smart Classroom API',
+      description: 'Smart Classroom API documentation',
       version: '1.0.0'
     }
   },
@@ -18,10 +18,10 @@ const swaggerSpec = swaggerJsdoc(options)
 
 function swaggerDocs (app) {
   // Swagger Page
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
   // Documentation in JSON format
-  app.get('/docs.json', (req, res) => {
+  app.get('/api-docs.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.send(swaggerSpec)
   })

@@ -125,7 +125,7 @@ route.get('/students/getCount', getCount)
  *           type: integer
  *           minimum: 1
  *     responses:
- *       '200':
+ *        '200':
  *         description: Lista de estudiantes no matriculados.
  *         content:
  *           application/json:
