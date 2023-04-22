@@ -1,6 +1,8 @@
 # Smart Classroom API
 [![Build Status](https://dev.azure.com/LuisLopezOrg/SmartClassroom/_apis/build/status%2FBuild%20SmartClassroom%20API%20-%20DEV?branchName=develop)](https://dev.azure.com/LuisLopezOrg/SmartClassroom/_build/latest?definitionId=2&branchName=develop)
 
+This repository contains the backend code for the Smart Classroom application, built with Node.Js and Express.Js. It also uses a MySQL database for data storage.
+
 ## 🇺🇸 About this project
 > This project has been developed for educational purposes, non-profitably, and with the sole aim of learning about the technologies used in its implementation. It is part of the initiative promoted by TryCatch.TV (Collaborative Learning) to carry out projects collaboratively with various developers who are aiming to improve their skills in certain areas and for those who are looking for their first jobs as software developers.
 > 
@@ -14,8 +16,6 @@
 > Nosotros no somos responsables de cómo se use este proyecto ni de las consecuencias que puedan derivarse de su uso. Todos los participantes en este proyecto han contribuido de manera voluntaria y no se ha pagado a nadie por su colaboración. El código fuente de este proyecto se proporciona tal cual, sin garantías de ningún tipo.
 > 
 > Si tienes alguna pregunta o comentario, no dudes en ponerte en contacto con nosotros. 
-
-This repository contains the backend code for the Smart Classroom application, built with Node.Js and Express.Js. It also uses a MySQL database for data storage.
 
 ## 📋 Prerequisites
 Before running the code, the following prerequisites must be met:
