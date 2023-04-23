@@ -4,14 +4,14 @@
 This repository contains the backend code for the Smart Classroom application, built with Node.Js and Express.Js. It also uses a MySQL database for data storage.
 
 ## 🇺🇸 About this project
-> This project has been developed for educational purposes, non-profitably, and with the sole aim of learning about the technologies used in its implementation. It is part of the initiative promoted by TryCatch.TV (Collaborative Learning) to carry out projects collaboratively with various developers who are aiming to improve their skills in certain areas and for those who are looking for their first jobs as software developers.
+> This project has been developed for educational purposes, non-profitably, and with the sole aim of learning about the technologies used in its implementation. It is part of the initiative promoted by [TryCatch.TV](https://linktr.ee/trycatch.tv) (Collaborative Learning) to carry out projects collaboratively with various developers who are aiming to improve their skills in certain areas and for those who are looking for their first jobs as software developers.
 > 
 > We are not responsible for how this project is used or for any consequences that may arise from its use. All participants in this project have contributed voluntarily, and no one has been paid for their collaboration. The source code of this project is provided as-is, without any guarantees.
 > 
 > If you have any questions or comments, please do not hesitate to contact us.
 
 ## 🇨🇴 Sobre este proyecto
-> Este proyecto se ha realizado con fines educativos, sin ánimo de lucro y con el objetivo meramente de aprender sobre las tecnologías con las que se ha implementado. Forma parte de la iniciativa impulsada por TryCatch.TV (Aprendizaje colaborativo) para realizar proyectos de forma colaborativa con varios desarrolladores que están apuntando a mejorar sus habilidades en ciertas áreas y para aquellos que están en búsqueda de sus primeros empleos como desarrolladores de software.
+> Este proyecto se ha realizado con fines educativos, sin ánimo de lucro y con el objetivo meramente de aprender sobre las tecnologías con las que se ha implementado. Forma parte de la iniciativa impulsada por [TryCatch.TV](https://linktr.ee/trycatch.tv) (Aprendizaje colaborativo) para realizar proyectos de forma colaborativa con varios desarrolladores que están apuntando a mejorar sus habilidades en ciertas áreas y para aquellos que están en búsqueda de sus primeros empleos como desarrolladores de software.
 > 
 > Nosotros no somos responsables de cómo se use este proyecto ni de las consecuencias que puedan derivarse de su uso. Todos los participantes en este proyecto han contribuido de manera voluntaria y no se ha pagado a nadie por su colaboración. El código fuente de este proyecto se proporciona tal cual, sin garantías de ningún tipo.
 > 
