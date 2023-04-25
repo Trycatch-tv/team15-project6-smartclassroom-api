@@ -40,44 +40,52 @@ VALUES (
         '2023-06-30',
         'Carlos Rodríguez'
     );
-INSERT INTO `students` (`student_name`, `email`, `phone`)
+INSERT INTO `students` (`student_name`,`national_number_id`, `email`, `phone`)
 VALUES (
         'Luis Lopez',
+        1234567899,
         'juan.perez@gmail.com',
         '555-1234'
     ),
     (
         'Carlos Nino',
+        2222222222,
         'correo1@mail.com',
         '555-5678'
     ),
     (
         'Carlos Ramírez',
+        8787878787878,
         'correo1@mail.com',
         '555-9101'
     ),
     (
         'Dylan Suarez',
+        3453456789,
         'correo2@mail.com',
         '555-1212'
     ),
     (
         'Eynar Alvarez',
+        7837462520,
         'correo3@mail.com',
         '555-1313'
     ),
     (
         'Giovanny Gómez',
+        7837462516,
         'correo4@mail.com',
         '555-1414'
     ),
     (
         'Joshua Acevedo',
+        3457462516,
         'correo5@mail.com',
         '555-1414'
     ),
     (
         'Luis Rodríguez',
+        1465896035,
         'correo6@mail.com',
         '555-1414'
     );

@@ -10,6 +10,7 @@ export const getStudents = async (req, res) => {
     const studenList = students.map(student => ({
       id: student.student_id,
       studentName: student.student_name,
+      nationalId: student.national_number_id,
       email: student.email,
       phone: student.phone
     }))
@@ -33,6 +34,7 @@ export const studentDetail = async (req, res) => {
     const studentDetail = {
       id: student.student_id,
       studentName: student.student_name,
+      nationalId: student.national_number_id,
       email: student.email,
       phone: student.phone
     }
@@ -74,6 +76,7 @@ export const createStudent = async (req, res) => {
   try {
     const newStudent = {
       student_name: req.body.studentName,
+      national_number_id: req.body.nationalId,
       email: req.body.email,
       phone: req.body.phone
     }
@@ -91,8 +94,9 @@ export const putStudent = async (req, res) => {
     if (!student) {
       return res.sendStatus(404)
     }
-    const { studentName, email, phone } = req.body
+    const { studentName, nationalId, email, phone } = req.body
     student.student_name = studentName
+    student.national_number_id = nationalId
     student.email = email
     student.phone = phone
 
@@ -125,11 +129,10 @@ export const notEnrolledStudent = async (req, res) => {
 
     // Obtener la lista de estudiantes que no están matriculados en el curso
     const nonEnrolledStudents = studentList.filter(student => !enrolledStudentsIdName.some(({ id }) => id === student.id))
-     .map(({ id, name }) => ({ id, name }))
+      .map(({ id, name }) => ({ id, name }))
 
     res.status(200).json(nonEnrolledStudents)
   } catch (err) {
     res.status(500).json(err)
   }
 }
-

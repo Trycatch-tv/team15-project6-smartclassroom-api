@@ -83,6 +83,7 @@ export const getGradesByStudent = async (req, res) => {
     }))
     return res.status(200).json(data)
   } catch (err) {
+    console.error(err)
     return res.status(500).json(err)
   }
 }

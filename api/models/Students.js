@@ -8,15 +8,24 @@ export const Student = conectionSequelize.define('students', {
     autoIncrement: true
   },
   student_name: {
-    type: DataTypes.STRING(),
+    type: DataTypes.STRING(40),
     allowNull: false
   },
+  national_number_id: {
+    type: DataTypes.BIGINT,
+    allowNull: false,
+    indexes: [{
+      unique: true,
+      fields: ['national_number_id'],
+      using: 'BTREE'
+    }]
+  },
   email: {
-    type: DataTypes.STRING(),
+    type: DataTypes.STRING(50),
     allowNull: false
   },
   phone: {
-    type: DataTypes.STRING(20),
-    allowNull: false
+    type: DataTypes.STRING(10),
+    allowNull: true
   }
 }, { timestamps: false })
