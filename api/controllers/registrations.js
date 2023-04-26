@@ -6,7 +6,7 @@ import { Student } from '../models/Students.js'
 
 export const createRegistration = async (req, res) => {
   try {
-    const { student_id, course_id, registration_date, cancellation_date } = req.body
+    const { student_id, course_id } = req.body
 
     const student = await Student.findByPk(student_id)
     if (!student) {
@@ -16,25 +16,12 @@ export const createRegistration = async (req, res) => {
 
     const course = await Course.findByPk(course_id)
 
-    const existRegistration = await Registration.findOne({
-      where: {
-        student_id,
-        course_id,
-        registration_date,
-        cancellation_date
-      }
-    })
-
-    if (existRegistration) {
-      res.sendStatus(409)
-      return
-    }
-
+    const todayDate = Date.now()
     const registration = await Registration.create({
       student_id,
       course_id,
-      registration_date: registration_date,
-      cancellation_date: cancellation_date
+      registration_date: new Date(todayDate),
+      cancellation_date: null
     })
 
     await registration.setStudent(student)
@@ -42,8 +29,7 @@ export const createRegistration = async (req, res) => {
 
     res.sendStatus(201)
   } catch (err) {
-    console.error(err)
-    res.status(500).send({ message: 'error creating' })
+    res.status(500).json(err)
   }
 }
 

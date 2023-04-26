@@ -18,20 +18,20 @@ CREATE TABLE `students` (
 );
 CREATE TABLE `registrations` (
     `registration_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `student_id` INT DEFAULT NULL,
-    `course_id` INT DEFAULT NULL,
-    `registration_date` DATE NOT NULL,
-    `cancellation_date` DATE NOT NULL
+    `student_id` INT NOT NULL,
+    `course_id` INT NOT NULL,
+    `registration_date` DATE NULL,
+    `cancellation_date` DATE NULL
 );
 CREATE TABLE `grades` (
     `grade_id` INT PRIMARY KEY AUTO_INCREMENT,
     `student_id` INT NOT NULL,
     `course_id` INT NOT NULL,
-    `grade1` FLOAT(2.2) NOT NULL,
-    `grade2` FLOAT(2.2) NOT NULL,
-    `grade3` FLOAT(2.2) NOT NULL,
-    `grade4` FLOAT(2.2) NOT NULL,
-    `grade5` FLOAT(2.2) NOT NULL
+    `grade2` FLOAT(2.2) NULL,
+    `grade3` FLOAT(2.2) NULL,
+    `grade1` FLOAT(2.2) NULL,
+    `grade4` FLOAT(2.2) NULL,
+    `grade5` FLOAT(2.2) NULL
 );
 ALTER TABLE `registrations`
 ADD FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
@@ -42,6 +42,3 @@ ADD FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 ALTER TABLE `grades`
 ADD FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`);
 ALTER TABLE `students` ADD INDEX `national_number_id_index` USING BTREE (`national_number_id`);
-ALTER TABLE registrations
-ADD CONSTRAINT unique_registration
-UNIQUE (student_id, course_id, registration_date);

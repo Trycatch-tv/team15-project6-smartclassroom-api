@@ -11,23 +11,23 @@ export const Grade = conectionSequelize.define('grades', {
   },
   grade1: {
     type: DataTypes.FLOAT(2, 2),
-    allowNull: false
+    allowNull: true
   },
   grade2: {
     type: DataTypes.FLOAT(2, 2),
-    allowNull: false
+    allowNull: true
   },
   grade3: {
     type: DataTypes.FLOAT(2, 2),
-    allowNull: false
+    allowNull: true
   },
   grade4: {
     type: DataTypes.FLOAT(2, 2),
-    allowNull: false
+    allowNull: true
   },
   grade5: {
     type: DataTypes.FLOAT(2, 2),
-    allowNull: false
+    allowNull: true
   }
 }, { timestamps: false })
 

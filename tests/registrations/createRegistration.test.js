@@ -1,80 +1,72 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import { createRegistration } from '../../api/controllers/registrations'
 import { Course } from '../../api/models/Courses'
 import { Registration } from '../../api/models/Registrations'
 import { Student } from '../../api/models/Students'
+import sinon from 'sinon'
 
 describe('createRegistration', () => {
   it('should create a new registration', async () => {
-    const mockReq = {
+    const req = {
       body: {
         student_id: 1,
-        course_id: 1,
-        registration_date: '2022-05-01',
-        cancellation_date: '2022-06-01'
+        course_id: 1
       }
     }
-    const mockRes = {
-      sendStatus: jest.fn(),
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn()
+    const res = {
+      sendStatus: sinon.spy()
     }
-    const mockStudent = {
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '555-1234'
+    const student = {
+      id: 1
     }
-    const mockCourse = {
-      id: 1,
-      name: 'Mathematics',
-      description: 'Basic math course',
-      start_date: '2022-01-01',
-      end_date: '2022-06-01',
-      teacher: 'Jane Smith'
+    const course = {
+      id: 1
     }
-    const mockRegistration = {
-      id: 1,
-      registration_date: '2022-05-01',
-      cancellation_date: '2022-06-01',
-      setStudent: jest.fn().mockReturnThis(),
-      setCourse: jest.fn().mockReturnThis()
+    const registration = {
+      setStudent: sinon.spy(),
+      setCourse: sinon.spy()
     }
-    jest.spyOn(Student, 'findByPk').mockResolvedValue(mockStudent)
-    jest.spyOn(Course, 'findByPk').mockResolvedValue(mockCourse)
-    jest.spyOn(Registration, 'create').mockResolvedValue(mockRegistration)
+    sinon.stub(Student, 'findByPk').resolves(student)
+    sinon.stub(Course, 'findByPk').resolves(course)
+    sinon.stub(Registration, 'create').resolves(registration)
 
-    await createRegistration(mockReq, mockRes)
+    await createRegistration(req, res)
 
-    expect(mockRes.sendStatus).toHaveBeenCalledWith(201)
-    // If you want to fail this test  "should create a new registration"
-    // You can change the expected values of Student and Course
-    expect(Student.findByPk).toHaveBeenCalledWith(mockReq.body.student_id)
-    expect(Course.findByPk).toHaveBeenCalledWith(mockReq.body.course_id)
-    expect(Registration.create).toHaveBeenCalledWith({
-      registration_date: mockReq.body.registration_date,
-      cancellation_date: mockReq.body.cancellation_date || null
+    sinon.assert.calledWith(Student.findByPk, 1)
+    sinon.assert.calledWith(Course.findByPk, 1)
+    sinon.assert.calledWith(Registration.create, {
+      student_id: 1,
+      course_id: 1,
+      registration_date: sinon.match.date,
+      cancellation_date: null
     })
-    expect(mockRegistration.setStudent).toHaveBeenCalledWith(mockStudent)
-    expect(mockRegistration.setCourse).toHaveBeenCalledWith(mockCourse)
+    sinon.assert.calledOnce(registration.setStudent)
+    sinon.assert.calledWith(registration.setStudent, student)
+    sinon.assert.calledOnce(registration.setCourse)
+    sinon.assert.calledWith(registration.setCourse, course)
+    sinon.assert.calledWith(res.sendStatus, 201)
   })
 
-  it('should return a 404 if the student is not found', async () => {
-    const mockReq = {
+  it('should return a 404 if the student does not exist', async () => {
+    const req = {
       body: {
-        student_id: '',
-        course_id: null
+        student_id: 1,
+        course_id: 1
       }
     }
-    const mockRes = {
-      sendStatus: jest.fn(),
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn()
+    const res = {
+      sendStatus: sinon.spy()
     }
-    jest.spyOn(Student, 'findByPk').mockResolvedValue(null)
 
-    await createRegistration(mockReq, mockRes)
+    // Here we're cleaning stubs before use news stubs
+    sinon.restore()
 
-    expect(mockRes.sendStatus).toHaveBeenCalledWith(404)
+    const findByPkStub = sinon.stub(Student, 'findByPk').resolves(null)
+
+    await createRegistration(req, res)
+
+    sinon.assert.calledWith(findByPkStub, 1)
+    sinon.assert.calledWith(res.sendStatus, 404)
   })
 })
