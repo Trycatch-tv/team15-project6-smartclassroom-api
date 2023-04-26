@@ -18,6 +18,7 @@ const route = Router()
  *            type: object
  *            required:
  *              - student_name
+ *              - national_number_id
  *              - email
  *              - phone
  *            properties:
@@ -25,6 +26,10 @@ const route = Router()
  *                type: string
  *                description: Nombre del estudiante
  *                example: "Mariano Ribera"
+ *              national_number_id:
+ *                type: bigint
+ *                description: Identificacion del estudiante
+ *                example: 2343214567
  *              email:
  *                type: string
  *                description: email del alumno
@@ -68,6 +73,10 @@ route.post('/students', createStudent)
  *                    type: string
  *                    description: Nombre del estudiante
  *                    example: "Mariano Ribera"
+ *                  national_id:
+ *                    type: bigint
+ *                    description: Identificaión del estudiante
+ *                    example: 1234538978
  *                  email:
  *                    type: string
  *                    description: email del alumno
@@ -110,7 +119,7 @@ route.get('/students', getStudents)
 route.get('/students/getCount', getCount)
 
 /**
- * @openapi 
+ * @openapi
  * /api/courses/not-enrolled-students:
  *   get:
  *     tags:

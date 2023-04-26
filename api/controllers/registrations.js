@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable camelcase */
 import { Course } from '../models/Courses.js'
 import { Registration } from '../models/Registrations.js'
@@ -5,29 +6,33 @@ import { Student } from '../models/Students.js'
 
 export const createRegistration = async (req, res) => {
   try {
-    // eslint-disable-next-line camelcase
-    const { student_id, course_id } = req.body
+    const { studentId, courseId } = req.body
 
-    const student = await Student.findByPk(student_id)
+    const student = await Student.findByPk(studentId)
     if (!student) {
       res.sendStatus(404)
       return
     }
-    const course = await Course.findByPk(course_id)
 
-    // eslint-disable-next-line camelcase
-    const { registration_date, cancellation_date } = req.body
-
+    const course = await Course.findByPk(courseId)
+    if (!course) {
+      res.sendStatus(404)
+      return
+    }
+    const registrationDate = new Date(); 
     const registration = await Registration.create({
-      // eslint-disable-next-line camelcase
-      registration_date: registration_date || null,
-      cancellation_date: cancellation_date || null
-    })
+      student_id: studentId,
+      course_id: courseId,
+      registration_date: registrationDate.toISOString().slice(0, 10)
+    });
+
     await registration.setStudent(student)
     await registration.setCourse(course)
 
     res.sendStatus(201)
   } catch (err) {
+    console.log(err)
+    console.log(err.message)
     res.status(500).json(err)
   }
 }

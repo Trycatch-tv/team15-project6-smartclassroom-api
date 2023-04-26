@@ -8,24 +8,23 @@ export const Course = conectionSequelize.define('courses', {
     autoIncrement: true
   },
   course_name: {
-    type: DataTypes.STRING(120),
-    allowNull: false,
-    unique: true
+    type: DataTypes.STRING(80),
+    allowNull: false
   },
   course_description: {
-    type: DataTypes.TEXT,
-    allowNull: true
+    type: DataTypes.STRING(255),
+    allowNull: false
   },
   start_date: {
-    type: DataTypes.DATEONLY(),
-    defaultValue: DataTypes.NOW()
+    type: DataTypes.DATE,
+    allowNull: false
   },
   end_date: {
-    type: DataTypes.DATEONLY(),
-    defaultValue: DataTypes.NOW()
+    type: DataTypes.DATE,
+    allowNull: false
   },
   teacher: {
-    type: DataTypes.STRING(),
+    type: DataTypes.STRING(40),
     allowNull: false
   }
 }, { timestamps: false })

@@ -8,11 +8,11 @@ export const Registration = conectionSequelize.define('registrations', {
     autoIncrement: true
   },
   registration_date: {
-    type: DataTypes.DATEONLY(),
-    allowNull: true
+    type: DataTypes.DATE,
+    allowNull: false
   },
   cancellation_date: {
-    type: DataTypes.DATEONLY(),
+    type: DataTypes.DATE,
     allowNull: true
   }
 }, { timestamps: false })

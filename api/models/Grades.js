@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
+import { Registration } from './Registrations.js'
 
 export const Grade = conectionSequelize.define('grades', {
   grade_id: {
@@ -8,18 +9,25 @@ export const Grade = conectionSequelize.define('grades', {
     autoIncrement: true
   },
   grade1: {
-    type: DataTypes.FLOAT(2, 2)
+    type: DataTypes.FLOAT(2,2),
+    allowNull: true
   },
   grade2: {
-    type: DataTypes.FLOAT(2, 2)
+    type: DataTypes.FLOAT(2,2),
+    allowNull: true
   },
   grade3: {
-    type: DataTypes.FLOAT(2, 2)
+    type: DataTypes.FLOAT(2,2),
+    allowNull: true
   },
   grade4: {
-    type: DataTypes.FLOAT(2, 2)
+    type: DataTypes.FLOAT(2,2),
+    allowNull: true
   },
   grade5: {
-    type: DataTypes.FLOAT(2, 2)
+    type: DataTypes.FLOAT(2,2),
+    allowNull: true
   }
 }, { timestamps: false })
+
+Grade.belongsTo(Registration, { foreignKey: 'registration_id' })
