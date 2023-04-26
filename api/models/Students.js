@@ -13,19 +13,23 @@ export const Student = conectionSequelize.define('students', {
   },
   national_number_id: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    indexes: [{
-      unique: true,
-      fields: ['national_number_id'],
-      using: 'BTREE'
-    }]
+    unique: true,
+    allowNull: false
   },
   email: {
     type: DataTypes.STRING(50),
+    unique: true,
     allowNull: false
   },
   phone: {
     type: DataTypes.STRING(10),
     allowNull: true
   }
-}, { timestamps: false })
+}, { 
+  timestamps: false,
+  indexes: [{
+    name: 'national_number_id_index',
+    using: 'BTREE',
+    fields: ['national_number_id']
+  }]
+})

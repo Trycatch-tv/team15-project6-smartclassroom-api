@@ -6,29 +6,33 @@ import { Student } from '../models/Students.js'
 
 export const createRegistration = async (req, res) => {
   try {
-    const { student_id, course_id } = req.body
+    const { studentId, courseId } = req.body
 
-    const student = await Student.findByPk(student_id)
+    const student = await Student.findByPk(studentId)
     if (!student) {
       res.sendStatus(404)
       return
     }
 
-    const course = await Course.findByPk(course_id)
-
-    const todayDate = Date.now()
+    const course = await Course.findByPk(courseId)
+    if (!course) {
+      res.sendStatus(404)
+      return
+    }
+    const registrationDate = new Date(); 
     const registration = await Registration.create({
-      student_id,
-      course_id,
-      registration_date: new Date(todayDate),
-      cancellation_date: null
-    })
+      student_id: studentId,
+      course_id: courseId,
+      registration_date: registrationDate.toISOString().slice(0, 10)
+    });
 
     await registration.setStudent(student)
     await registration.setCourse(course)
 
     res.sendStatus(201)
   } catch (err) {
+    console.log(err)
+    console.log(err.message)
     res.status(500).json(err)
   }
 }
