@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
+import { Registration } from './Registrations.js';
 
 export const Student = conectionSequelize.define('students', {
   student_id: {
@@ -33,3 +34,5 @@ export const Student = conectionSequelize.define('students', {
     fields: ['national_number_id']
   }]
 })
+
+//Student.hasMany(Registration, { foreignKey: 'student_id' });

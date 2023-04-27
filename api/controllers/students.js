@@ -2,6 +2,7 @@ import { Student } from '../models/Students.js'
 import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
 import { Course } from '../models/Courses.js'
+import { Op, Sequelize } from 'sequelize'
 
 export const getStudents = async (req, res) => {
   try {
@@ -46,18 +47,35 @@ export const studentDetail = async (req, res) => {
 }
 
 export const deleteStudent = async (req, res) => {
-  const { id } = req.params
-
   try {
-    const studentGrade = await Grade.destroy({ where: { student_id: id } })
-    const studentRegistration = await Registration.destroy({ where: { student_id: id } })
-    const student = await Student.destroy({ where: { student_id: id } })
+    const { id } = req.params
 
-    if (!student && !studentRegistration && !studentGrade) {
+    const studentToDelete = await Student.findByPk(id)
+
+    if(studentToDelete == null){
       return res.status(404).json({ error: 'Student not found' })
     }
 
-    return res.status(200).json({ message: 'User deleted' })
+    const registrationsToDeleteCount = await Registration.count({ where: { student_id: id }})
+    
+    if (registrationsToDeleteCount > 0) {
+      
+      await Grade.destroy({
+        where: {
+          registration_id: {
+            [Op.in]: Sequelize.literal(
+              `(SELECT registration_id FROM registrations WHERE student_id = ${id})`
+            )
+          }
+        }
+      })
+      
+      await Registration.destroy({ where: { student_id: id } })
+    }
+
+    await Student.destroy({ where: { student_id: id } })
+
+    return res.status(200).json({ message: 'Student deleted' })
   } catch (err) {
     res.status(500).json(err)
   }
@@ -115,24 +133,18 @@ export const notEnrolledStudent = async (req, res) => {
       return res.sendStatus(404)
     }
 
-    // Obtener todos los estudiantes matriculados en el curso
-    const enrolledStudents = await course.getStudents()
+    const studentsWithoutRegistration = await Student.findAll({
+      where: {
+        student_id: {
+          [Op.notIn]: Sequelize.literal(
+            `(SELECT student_id FROM registrations WHERE course_id = ${courseId})`
+          )
+        }
+      }
+    });
 
-    const enrolledStudentsIdName = enrolledStudents.map(student => ({
-      id: student.student_id,
-      name: student.student_name
-    }))
-
-    // Obtener todos los estudiantes y sus IDs
-    const allStudents = await Student.findAll({ order: [['student_name', 'ASC']] })
-    const studentList = allStudents.map(student => ({ id: student.student_id, name: student.student_name }))
-
-    // Obtener la lista de estudiantes que no están matriculados en el curso
-    const nonEnrolledStudents = studentList.filter(student => !enrolledStudentsIdName.some(({ id }) => id === student.id))
-      .map(({ id, name }) => ({ id, name }))
-
-    res.status(200).json(nonEnrolledStudents)
+    res.status(200).json(studentsWithoutRegistration)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err.message)
   }
 }
