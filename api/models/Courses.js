@@ -16,11 +16,11 @@ export const Course = conectionSequelize.define('courses', {
     allowNull: false
   },
   start_date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   end_date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   teacher: {

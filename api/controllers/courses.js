@@ -2,6 +2,7 @@
 import { Course } from '../models/Courses.js'
 import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
+import { Op, Sequelize } from 'sequelize'
 
 export const courseDetail = async (req, res) => {
   try {
@@ -55,7 +56,16 @@ export const deleteCourse = async (req, res) => {
       return res.status(404).json({ error: 'Course not found' })
     }
     
-    await Grade.destroy({ where: { course_id: courseId } })
+    await Grade.destroy({
+      where: {
+        registration_id: {
+          [Op.in]: Sequelize.literal(
+            `(SELECT registration_id FROM registrations WHERE course_id = ${courseId})`
+          )
+        }
+      }
+    });
+    
     await Registration.destroy({ where: { course_id: courseId } })
     await Course.destroy({ where: { course_id: courseId } })
 

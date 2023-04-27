@@ -26,11 +26,11 @@ CREATE TABLE `registrations` (
 CREATE TABLE `grades` (
     `grade_id` INT PRIMARY KEY AUTO_INCREMENT,
     `registration_id` INT NOT NULL,
-    `grade1` FLOAT(2.2) NULL,
-    `grade2` FLOAT(2.2) NULL,
-    `grade3` FLOAT(2.2) NULL,
-    `grade4` FLOAT(2.2) NULL,
-    `grade5` FLOAT(2.2) NULL
+    `grade1` FLOAT(2.2) DEFAULT 0,
+    `grade2` FLOAT(2.2) DEFAULT 0,
+    `grade3` FLOAT(2.2) DEFAULT 0,
+    `grade4` FLOAT(2.2) DEFAULT 0,
+    `grade5` FLOAT(2.2) DEFAULT 0
 );
 ALTER TABLE `registrations`
 ADD FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);

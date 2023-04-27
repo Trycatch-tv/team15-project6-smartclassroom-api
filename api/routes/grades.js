@@ -5,13 +5,13 @@ const route = Router()
 
 /**
  * @openapi
- * 'api/grades/courses/{id}':
+ * 'api/grades/courses/{courseId}':
  *  get:
  *     tags:
  *     - Grades
  *     summary: Obtiene las notas por curso
  *     parameters:
- *       - name: id
+ *       - name: courseId
  *         in: path
  *         required: true
  *         description: identificador del curso
@@ -61,17 +61,17 @@ const route = Router()
  *      500:
  *        description: unhandled exception
  */
-route.get('/grades/courses/:id', getGradesByCourse)
+route.get('/grades/courses/:courseId', getGradesByCourse)
 
 /**
  * @openapi
- * 'api/grades/students/{id}':
+ * 'api/grades/students/{studentId}':
  *  get:
  *     tags:
  *     - Grades
  *     summary: Obtiene las notas por alumno
  *     parameters:
- *       - name: id
+ *       - name: studentId
  *         in: path
  *         required: true
  *         description: identificador del estudiante
@@ -121,5 +121,5 @@ route.get('/grades/courses/:id', getGradesByCourse)
  *      500:
  *        description: unhandled exception
  */
-route.get('/grades/students/:id', getGradesByStudent)
+route.get('/grades/students/:studentId', getGradesByStudent)
 export default route

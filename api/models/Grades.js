@@ -8,26 +8,39 @@ export const Grade = conectionSequelize.define('grades', {
     primaryKey: true,
     autoIncrement: true
   },
+  registration_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Registration,
+      key: 'registration_id'
+    }
+  },
   grade1: {
     type: DataTypes.FLOAT(2,2),
-    allowNull: true
+    allowNull: false,
+    defaultValue: 0
   },
   grade2: {
     type: DataTypes.FLOAT(2,2),
-    allowNull: true
+    allowNull: false,
+    defaultValue: 0
   },
   grade3: {
     type: DataTypes.FLOAT(2,2),
-    allowNull: true
+    allowNull: false,
+    defaultValue: 0
   },
   grade4: {
     type: DataTypes.FLOAT(2,2),
-    allowNull: true
+    allowNull: false,
+    defaultValue: 0
   },
   grade5: {
     type: DataTypes.FLOAT(2,2),
-    allowNull: true
+    allowNull: false,
+    defaultValue: 0
   }
 }, { timestamps: false })
 
-Grade.belongsTo(Registration, { foreignKey: 'registration_id' })
+Grade.belongsTo(Registration, { foreignKey: 'registration_id' });
