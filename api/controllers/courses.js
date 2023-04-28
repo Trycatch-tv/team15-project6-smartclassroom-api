@@ -3,6 +3,7 @@ import { Course } from '../models/Courses.js'
 import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
 import { Op, Sequelize } from 'sequelize'
+import { Student } from '../models/Students.js'
 
 export const courseDetail = async (req, res) => {
   try {
@@ -101,5 +102,34 @@ export const getCount = async (req, res) => {
     res.status(200).json({ coursesCount: count })
   } catch (err) {
     res.status(500).json({ error: err.message })
+  }
+}
+
+export const getCoursesNotEnrolled = async (req, res) => {
+  try {
+    const studentId = req.query.studentId
+    const student = await Student.findByPk(studentId)
+    if (!student) {
+      return res.sendStatus(404)
+    }
+
+    const coursesWithoutRegistration = await Course.findAll({
+      where: {
+        course_id: {
+          [Op.notIn]: Sequelize.literal(
+            `(SELECT course_id FROM registrations WHERE student_id = ${studentId})`
+          )
+        }
+      }
+    });
+
+    const coursesList = coursesWithoutRegistration.map(course => ({
+      courseId: course.course_id,
+      courseName: course.course_name
+    }))
+
+    res.status(200).json(coursesList)
+  } catch (err) {
+    res.status(500).json(err.message)
   }
 }
