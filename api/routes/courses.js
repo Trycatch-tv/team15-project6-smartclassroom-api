@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { courseDetail, createCourse, deleteCourse, getCourses, putCourse, getCount } from '../controllers/courses.js'
+import { courseDetail, createCourse, deleteCourse, getCourses, putCourse, getCount, getCoursesNotEnrolled } from '../controllers/courses.js'
 
 const route = Router()
 /**
@@ -79,6 +79,48 @@ route.post('/courses', createCourse)
  *        description: unhandled exception
  */
 route.get('/courses/getCount', getCount)
+
+
+/**
+ * @openapi
+ * /api/students/getCoursesNotEnrolled:
+ *   get:
+ *     tags:
+ *       - Courses
+ *     summary: Devuelve la lista de cursos a los que no está matriculado un estudiante específico.
+ *     parameters:
+ *       - name: studentId
+ *         in: query
+ *         required: true
+ *         description: ID del estudiante del que se desea obtener la lista de cursos a los que no está matriculado.
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *     responses:
+ *        '200':
+ *         description: Lista de cursos a los que no está matriculado el estudiante.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   courseId:
+ *                     type: integer
+ *                     description: ID del curso.
+ *                     example: 1
+ *                   courseName:
+ *                     type: string
+ *                     description: Nombre del curso.
+ *                     example: "Xamarin Forms 1"
+ *        404:
+ *         description: Not Found.
+ *        500:
+ *         description: unhandled exception.
+ */
+route.get('/courses/getCoursesNotEnrolled', getCoursesNotEnrolled)
+
 
 /**
  * @openapi
@@ -271,5 +313,6 @@ route.delete('/courses/:id', deleteCourse)
  *        description: unhandled exception
  */
 route.put('/courses/:id', putCourse)
+
 
 export default route
