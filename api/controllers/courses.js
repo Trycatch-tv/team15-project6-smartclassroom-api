@@ -1,3 +1,4 @@
+/* eslint-disable no-const-assign */
 /* eslint-disable camelcase */
 import { Course } from '../models/Courses.js'
 import { Grade } from '../models/Grades.js'
@@ -22,6 +23,12 @@ export const courseDetail = async (req, res) => {
 
 export const createCourse = async (req, res) => {
   try {
+    const { course_name, course_description, start_date, end_date, teacher } = req.body
+    if (course_name && course_description && start_date && end_date && teacher) {
+      if (!validateCourse(course_name, course_description, start_date, end_date, teacher)) return res.sendStatus(400)
+    } else {
+      return res.sendStatus(400)
+    }
     await Course.create(req.body)
     res.sendStatus(201)
   } catch (err) {
@@ -53,10 +60,10 @@ export const deleteCourse = async (req, res) => {
     const courseId = req.params.id
     const courseToDelete = await Course.findByPk(courseId)
 
-    if(courseToDelete == null){
+    if (courseToDelete == null) {
       return res.status(404).json({ error: 'Course not found' })
     }
-    
+
     await Grade.destroy({
       where: {
         registration_id: {
@@ -65,8 +72,8 @@ export const deleteCourse = async (req, res) => {
           )
         }
       }
-    });
-    
+    })
+
     await Registration.destroy({ where: { course_id: courseId } })
     await Course.destroy({ where: { course_id: courseId } })
 
@@ -83,12 +90,13 @@ export const putCourse = async (req, res) => {
       return res.sendStatus(404)
     }
     const { course_name, course_description, start_date, end_date, teacher } = req.body
+    if (!validateCourse(course_name, course_description, start_date, end_date, teacher)) return res.sendStatus(400)
+
     course.course_name = course_name
     course.course_description = course_description
     course.start_date = start_date
     course.end_date = end_date
     course.teacher = teacher
-
     await course.save()
     res.status(200).json(course)
   } catch (err) {
@@ -121,7 +129,7 @@ export const getCoursesNotEnrolled = async (req, res) => {
           )
         }
       }
-    });
+    })
 
     const coursesList = coursesWithoutRegistration.map(course => ({
       courseId: course.course_id,
@@ -132,4 +140,35 @@ export const getCoursesNotEnrolled = async (req, res) => {
   } catch (err) {
     res.status(500).json(err.message)
   }
+}
+export const validateCourse = (course_name, course_description, start_date, end_date, teacher) => {
+  let aux = false
+  if (course_name) {
+    aux = true
+    if (course_name.trim().length === 0 || course_name.length > 80) {
+      return false
+    }
+  }
+  if (course_description) {
+    aux = true
+    if (course_description.trim().length === 0 || course_description.length > 255) {
+      return false
+    }
+  }
+  if (teacher) {
+    aux = true
+    if (teacher.trim().length === 0 || teacher.length > 40) {
+      return false
+    }
+  }
+  if (start_date && end_date) {
+    aux = true
+    if (start_date > end_date) {
+      return false
+    }
+  }
+  if (aux === false) {
+    return false
+  }
+  return true
 }
