@@ -52,14 +52,13 @@ export const deleteStudent = async (req, res) => {
 
     const studentToDelete = await Student.findByPk(id)
 
-    if(studentToDelete == null){
+    if (studentToDelete == null) {
       return res.status(404).json({ error: 'Student not found' })
     }
 
-    const registrationsToDeleteCount = await Registration.count({ where: { student_id: id }})
-    
+    const registrationsToDeleteCount = await Registration.count({ where: { student_id: id } })
+
     if (registrationsToDeleteCount > 0) {
-      
       await Grade.destroy({
         where: {
           registration_id: {
@@ -69,7 +68,7 @@ export const deleteStudent = async (req, res) => {
           }
         }
       })
-      
+
       await Registration.destroy({ where: { student_id: id } })
     }
 
@@ -141,7 +140,7 @@ export const notEnrolledStudent = async (req, res) => {
           )
         }
       }
-    });
+    })
 
     res.status(200).json(studentsWithoutRegistration)
   } catch (err) {

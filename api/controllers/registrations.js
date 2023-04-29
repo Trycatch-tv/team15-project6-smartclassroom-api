@@ -26,24 +26,24 @@ export const createRegistration = async (req, res) => {
         student_id: studentId,
         course_id: courseId
       }
-    });
-    
+    })
+
     if (count > 0) {
-      res.status(409).send({ error: 'Ya existe una inscripción para el estudiante y curso especificados' });
-      return;
+      res.status(409).send({ error: 'Ya existe una inscripción para el estudiante y curso especificados' })
+      return
     }
-    
-    const registrationDate = new Date(); 
+
+    const registrationDate = new Date()
     const registration = await Registration.create({
       student_id: studentId,
       course_id: courseId,
       registration_date: registrationDate.toISOString().slice(0, 10)
-    });
+    })
 
     await registration.setStudent(student)
     await registration.setCourse(course)
 
-    await Grade.create({registration_id: registration.registration_id});
+    await Grade.create({ registration_id: registration.registration_id })
 
     res.sendStatus(201)
   } catch (err) {
@@ -69,8 +69,8 @@ export const deleteRegistration = async (req, res) => {
       res.sendStatus(404)
       return
     }
-    
-    const cancelleationDate = new Date();
+
+    const cancelleationDate = new Date()
     registration.cancellation_date = cancelleationDate.toISOString().slice(0, 10)
 
     await registration.save()

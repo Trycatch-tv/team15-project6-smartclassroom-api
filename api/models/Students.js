@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
-import { Registration } from './Registrations.js';
+// eslint-disable-next-line no-unused-vars
+import { Registration } from './Registrations.js'
 
 export const Student = conectionSequelize.define('students', {
   student_id: {
@@ -26,7 +27,7 @@ export const Student = conectionSequelize.define('students', {
     type: DataTypes.STRING(10),
     allowNull: true
   }
-}, { 
+}, {
   timestamps: false,
   indexes: [{
     name: 'national_number_id_index',
@@ -35,4 +36,5 @@ export const Student = conectionSequelize.define('students', {
   }]
 })
 
+// eslint-disable-next-line spaced-comment
 //Student.hasMany(Registration, { foreignKey: 'student_id' });
