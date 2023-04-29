@@ -14,7 +14,14 @@ export const courseDetail = async (req, res) => {
       return res.status(404).json({ error: 'Course not found' })
     }
 
-    return res.status(200).json(course)
+    return res.status(200).json({
+      courseId: course.course_id,
+      courseName: course.course_name,
+      courseDescription: course.course_description,
+      startDate: course.start_date,
+      endDate: course.end_date,
+      teacher: course.teacher
+    })
   } catch (err) {
     return res.status(500).json({ error: err.message })
   }
@@ -22,7 +29,16 @@ export const courseDetail = async (req, res) => {
 
 export const createCourse = async (req, res) => {
   try {
-    await Course.create(req.body)
+    const newCourse = req.body
+
+    await Course.create({
+      course_id: newCourse.courseId,
+      course_name: newCourse.courseName,
+      course_description: newCourse.courseDescription,
+      start_date: newCourse.startDate,
+      end_date: newCourse.endDate,
+      teacher: newCourse.teacher
+    })
     res.sendStatus(201)
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -33,9 +49,9 @@ export const getCourses = async (req, res) => {
   try {
     const courses = await Course.findAll({ order: [['course_name', 'ASC']] })
     const courseList = courses.map(course => ({
-      id: course.course_id,
-      name: course.course_name,
-      description: course.course_description,
+      courseId: course.course_id,
+      courseName: course.course_name,
+      courseDescription: course.course_description,
       startDate: course.start_date,
       endDate: course.end_date,
       teacher: course.teacher
@@ -82,11 +98,11 @@ export const putCourse = async (req, res) => {
     if (!course) {
       return res.sendStatus(404)
     }
-    const { course_name, course_description, start_date, end_date, teacher } = req.body
-    course.course_name = course_name
-    course.course_description = course_description
-    course.start_date = start_date
-    course.end_date = end_date
+    const { courseName, courseDescription, startDate, endDate, teacher } = req.body
+    course.course_name = courseName
+    course.course_description = courseDescription
+    course.start_date = startDate
+    course.end_date = endDate
     course.teacher = teacher
 
     await course.save()
