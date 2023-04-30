@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getGradesByCourse, getGradesByStudent } from '../controllers/grades.js'
+import { getGradesByCourse, getGradesByStudent, updateGrades } from '../controllers/grades.js'
 
 const route = Router()
 
@@ -122,4 +122,7 @@ route.get('/grades/courses/:courseId', getGradesByCourse)
  *        description: unhandled exception
  */
 route.get('/grades/students/:studentId', getGradesByStudent)
+
+route.put('/grades/', updateGrades)
+
 export default route
