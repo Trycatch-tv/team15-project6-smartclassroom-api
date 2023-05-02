@@ -93,24 +93,14 @@ export const getCount = async (req, res) => {
 export const createStudent = async (req, res) => {
   try {
     const schema = Joi.object({
-      studentName: Joi.string().max(40).required(),
+      studentName: Joi.string().max(40).required().trim().not().empty(),
       nationalId: Joi.number().integer().positive().required(),
-      email: Joi.string().email().required(),
+      email: Joi.string().email().required().trim().not().empty(),
       phone: Joi.string().max(10).allow(null)
     })
 
     const { err, value } = schema.validate(req.body)
     if (err) {
-      return res.sendStatus(400).json(err)
-    }
-
-    const nationalIdUsed = await Student.findOne({ where: { national_number_id: value.nationalId } })
-    if (nationalIdUsed) {
-      return res.sendStatus(400).json(err)
-    }
-
-    const emailUsed = await Student.findOne({ where: { email: value.email } })
-    if (emailUsed) {
       return res.sendStatus(400).json(err)
     }
 
@@ -123,7 +113,13 @@ export const createStudent = async (req, res) => {
 
     res.sendStatus(201)
   } catch (err) {
-    res.status(500).json(err)
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      if (err.fields.national_number_id) {
+        return res.status(400).json(err)
+      }
+    }
+
+    return res.status(500).json(err)
   }
 }
 
