@@ -31,7 +31,7 @@ export const courseDetail = async (req, res) => {
 export const createCourse = async (req, res) => {
   try {
     const newCourse = req.body
-    if (!validateCourse(req.body)) return res.sendStatus(400)
+    if (!validateCreateCourse(req.body)) return res.sendStatus(400)
     await Course.create({
       course_id: newCourse.courseId,
       course_name: newCourse.courseName,
@@ -97,7 +97,7 @@ export const putCourse = async (req, res) => {
     if (!course) {
       return res.sendStatus(404)
     }
-    if (!validateCourse(req.body, true)) return res.sendStatus(400)
+    if (!validatePutCourse(req.body)) return res.sendStatus(400)
     const { courseName, courseDescription, startDate, endDate, teacher } = req.body
     course.course_name = courseName
     course.course_description = courseDescription
@@ -149,20 +149,25 @@ export const getCoursesNotEnrolled = async (req, res) => {
     res.status(500).json(err.message)
   }
 }
-export const validateCourse = (Course, update) => {
+export const validateCreateCourse = (Course) => {
   const schema = Joi.object({
     course_name: Joi.string().max(80).trim().min(0).required(),
-    course_description: Joi.string().max(255).trim().min(0),
+    course_description: Joi.string().max(255).trim().min(0).required(),
     start_date: Joi.date().required(),
     end_date: Joi.date().greater(Joi.ref('start_date')).required(),
     teacher: Joi.string().max(40).trim().min(0).required()
   })
-  if (update) {
-    schema.unknown(false)
-    schema.optional()
-  }
   const { err } = schema.validate(Course)
-  if (err) {
-    return false
-  }
+  if (err) return false
+}
+export const validatePutCourse = (Course) => {
+  const schema = Joi.object({
+    course_name: Joi.string().max(80).trim().min(0),
+    course_description: Joi.string().max(255).trim().min(0),
+    start_date: Joi.date(),
+    end_date: Joi.date().greater(Joi.ref('start_date')),
+    teacher: Joi.string().max(40).trim().min(0)
+  })
+  const { err } = schema.validate(Course)
+  if (err) return false
 }
