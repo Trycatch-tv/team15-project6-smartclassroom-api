@@ -113,7 +113,6 @@ export const createStudent = async (req, res) => {
 
     res.sendStatus(201)
   } catch (err) {
-<<<<<<< HEAD
     if (err.name === 'SequelizeUniqueConstraintError') {
       if (err.fields.national_number_id) {
         return res.status(400).json(err)
@@ -121,9 +120,6 @@ export const createStudent = async (req, res) => {
     }
 
     return res.status(500).json(err)
-=======
-    res.status(500).json(err.message)
->>>>>>> 11cef67ea3e32c2266d527ef48d24ddc1212948f
   }
 }
 
