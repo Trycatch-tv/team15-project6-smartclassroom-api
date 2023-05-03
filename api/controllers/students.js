@@ -9,17 +9,17 @@ export const getStudents = async (req, res) => {
   try {
     const students = await Student.findAll({ order: [['student_name', 'ASC']] })
 
-    const studenList = students.map(student => ({
-      id: student.student_id,
+    const studentList = students.map(student => ({
+      studentId: student.student_id,
       studentName: student.student_name,
       nationalId: student.national_number_id,
       email: student.email,
       phone: student.phone
     }))
 
-    res.status(200).json(studenList)
+    res.status(200).json(studentList)
   } catch (err) {
-    res.status(404).json(err)
+    res.status(404).json(err.message)
   }
 }
 
@@ -34,7 +34,7 @@ export const studentDetail = async (req, res) => {
     }
 
     const studentDetail = {
-      id: student.student_id,
+      studentId: student.student_id,
       studentName: student.student_name,
       nationalId: student.national_number_id,
       email: student.email,
@@ -43,7 +43,7 @@ export const studentDetail = async (req, res) => {
 
     return res.status(200).json(studentDetail)
   } catch (err) {
-    return res.status(500).json(err)
+    return res.status(500).json(err.message)
   }
 }
 
@@ -77,7 +77,7 @@ export const deleteStudent = async (req, res) => {
 
     return res.status(200).json({ message: 'Student deleted' })
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err.message)
   }
 }
 
@@ -86,7 +86,7 @@ export const getCount = async (req, res) => {
     const count = await Student.count()
     res.status(200).json({ studentsCount: count })
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err.message)
   }
 }
 
@@ -113,6 +113,7 @@ export const createStudent = async (req, res) => {
 
     res.sendStatus(201)
   } catch (err) {
+<<<<<<< HEAD
     if (err.name === 'SequelizeUniqueConstraintError') {
       if (err.fields.national_number_id) {
         return res.status(400).json(err)
@@ -120,6 +121,9 @@ export const createStudent = async (req, res) => {
     }
 
     return res.status(500).json(err)
+=======
+    res.status(500).json(err.message)
+>>>>>>> 11cef67ea3e32c2266d527ef48d24ddc1212948f
   }
 }
 
@@ -138,7 +142,7 @@ export const putStudent = async (req, res) => {
     await student.save()
     res.status(200).json(student)
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err.message)
   }
 }
 
@@ -160,7 +164,15 @@ export const notEnrolledStudent = async (req, res) => {
       }
     })
 
-    res.status(200).json(studentsWithoutRegistration)
+    const studentList = studentsWithoutRegistration.map(student => ({
+      studentId: student.student_id,
+      studentName: student.student_name,
+      nationalId: student.national_number_id,
+      email: student.email,
+      phone: student.phone
+    }))
+
+    res.status(200).json(studentList)
   } catch (err) {
     res.status(500).json(err.message)
   }

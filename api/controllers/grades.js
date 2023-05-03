@@ -18,7 +18,14 @@ export const getGradesByCourse = async (req, res) => {
       return res.sendStatus(404)
     }
 
-    const registrations = await Registration.findAll({ where: { course_id: courseId } })
+    const registrations = await Registration.findAll(
+      { 
+        where: { 
+          course_id: courseId, 
+          cancellation_date: null 
+        } 
+      })
+    
     const registrationIds = registrations.map((registration) => registration.registration_id);
 
     const grades = await Grade.findAll({
@@ -66,7 +73,7 @@ export const getGradesByStudent = async (req, res) => {
       return res.sendStatus(404)
     }
 
-    const registrations = await Registration.findAll({ where: { student_id: studentId } })
+    const registrations = await Registration.findAll({ where: { student_id: studentId, cancellation_date: null } })
     const registrationIds = registrations.map((registration) => registration.registration_id);
 
     const grades = await Grade.findAll({
@@ -96,6 +103,56 @@ export const getGradesByStudent = async (req, res) => {
     }))
 
     return res.status(200).json(data)
+  } catch (err) {
+    return res.status(500).json(err.message)
+  }
+}
+
+export const updateGrades = async (req, res) => {
+  try {
+    const { studentId, courseId, grade1, grade2, grade3, grade4, grade5 } = req.body
+
+    if (!studentId) {
+      return res.sendStatus(400)
+    }
+    
+    const student = await Student.findByPk(studentId)
+    if (!student) {
+      return res.sendStatus(404)
+    }
+
+    const course = await Course.findByPk(courseId)
+    if (!course) {
+      return res.sendStatus(404)
+    }
+
+    const registration = await Registration.findOne(
+      { where: 
+        { 
+          student_id: studentId, 
+          course_id: courseId,
+          cancellation_date: null 
+        } 
+      })
+
+    if (!registration) {
+      return res.sendStatus(404)
+    }
+
+    const grades = await Grade.findOne({
+      where: {
+        registration_id: registration.registration_id,
+      }
+    })
+
+    grades.grade1 = grade1
+    grades.grade2 = grade2
+    grades.grade3 = grade3
+    grades.grade4 = grade4
+    grades.grade5 = grade5
+
+    await grades.save()
+    return res.sendStatus(200)
   } catch (err) {
     return res.status(500).json(err.message)
   }
