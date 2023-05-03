@@ -4,7 +4,7 @@ import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
 import { Op, Sequelize } from 'sequelize'
 import { Student } from '../models/Students.js'
-import { Joi } from 'joi'
+import Joi from 'joi'
 
 export const courseDetail = async (req, res) => {
   try {
