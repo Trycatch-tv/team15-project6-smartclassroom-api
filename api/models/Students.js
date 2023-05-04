@@ -1,46 +1,29 @@
 import { DataTypes } from 'sequelize'
 import { conectionSequelize } from '../databases/db.js'
-// import { Registration } from './Registrations.js'
 
 export const Student = conectionSequelize.define('students', {
   student_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
-    allowNull: false
+    autoIncrement: true
   },
   student_name: {
     type: DataTypes.STRING(40),
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      len: [1, 40]
-    }
+    allowNull: false
   },
   national_number_id: {
     type: DataTypes.BIGINT,
     unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      isNumeric: true
-    }
+    allowNull: false
   },
   email: {
     type: DataTypes.STRING(50),
     unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      isEmail: true
-    }
+    allowNull: false
   },
   phone: {
     type: DataTypes.STRING(10),
-    allowNull: true,
-    validate: {
-      len: [1, 10]
-    }
+    allowNull: true
   }
 }, {
   timestamps: false,
@@ -50,5 +33,3 @@ export const Student = conectionSequelize.define('students', {
     fields: ['national_number_id']
   }]
 })
-
-// Student.hasMany(Registration, { foreignKey: 'student_id' })
