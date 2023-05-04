@@ -3,6 +3,7 @@ import { Grade } from '../models/Grades.js'
 import { Registration } from '../models/Registrations.js'
 import { Course } from '../models/Courses.js'
 import { Op, Sequelize } from 'sequelize'
+import Joi from 'joi'
 
 export const getStudents = async (req, res) => {
   try {
@@ -52,14 +53,13 @@ export const deleteStudent = async (req, res) => {
 
     const studentToDelete = await Student.findByPk(id)
 
-    if(studentToDelete == null){
+    if (studentToDelete == null) {
       return res.status(404).json({ error: 'Student not found' })
     }
 
-    const registrationsToDeleteCount = await Registration.count({ where: { student_id: id }})
-    
+    const registrationsToDeleteCount = await Registration.count({ where: { student_id: id } })
+
     if (registrationsToDeleteCount > 0) {
-      
       await Grade.destroy({
         where: {
           registration_id: {
@@ -69,7 +69,7 @@ export const deleteStudent = async (req, res) => {
           }
         }
       })
-      
+
       await Registration.destroy({ where: { student_id: id } })
     }
 
@@ -92,17 +92,34 @@ export const getCount = async (req, res) => {
 
 export const createStudent = async (req, res) => {
   try {
-    const newStudent = {
-      student_name: req.body.studentName,
-      national_number_id: req.body.nationalId,
-      email: req.body.email,
-      phone: req.body.phone
+    const schema = Joi.object({
+      studentName: Joi.string().max(40).required().trim().not().empty(),
+      nationalId: Joi.number().integer().positive().required(),
+      email: Joi.string().email().required().trim().not().empty(),
+      phone: Joi.string().max(10).allow(null)
+    })
+
+    const { err, value } = schema.validate(req.body)
+    if (err) {
+      return res.sendStatus(400).json(err)
     }
 
-    await Student.create(newStudent)
+    await Student.create({
+      student_name: value.studentName,
+      national_number_id: value.nationalId,
+      email: value.email,
+      phone: value.phone
+    })
+
     res.sendStatus(201)
   } catch (err) {
-    res.status(500).json(err.message)
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      if (err.fields.national_number_id) {
+        return res.status(400).json(err)
+      }
+    }
+
+    return res.status(500).json(err)
   }
 }
 
@@ -141,7 +158,7 @@ export const notEnrolledStudent = async (req, res) => {
           )
         }
       }
-    });
+    })
 
     const studentList = studentsWithoutRegistration.map(student => ({
       studentId: student.student_id,
